@@ -1,0 +1,25 @@
+.globeContainer {
+  display: flex;
+  justify-content: flex-end;  /* Aligns the rectangle to the right */
+  height: 100vh;
+  width: 120vh;
+  align-items: center;       /* Move it further to the right */
+}
+
+.rectangle {
+  width: 90%;                /* Takes up 90% of the screen width */
+  height: 95%;               /* Takes up 95% of the screen height */
+  background-color: #333;    /* Dark background color */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;       /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.rectangle p {
+  font-size: 36px;           /* Larger font size */
+  text-align: center;
+  line-height: 1.5;
+}
