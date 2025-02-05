@@ -1,0 +1,77 @@
+.detailsContainer {
+  flex: 1;
+  padding: 2rem;
+  background-color: #020202; /* Dark background color */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-right: 1px solid #333333; /* Subtle divider between sections */
+  overflow-y: auto; /* Ensures content scrolls if it overflows */
+}
+
+.inputContainer {
+  position: relative;
+  width: 40%; /* Make sure it takes the full width */
+  display: flex;
+  justify-content: center; /* Centers the input container */
+}
+
+.input {
+  padding: 5px 15px;
+  font-size: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.5); /* Transparent border */
+  border-radius: 30px;
+  background-color: rgba(233, 255, 38, 0.1); /* Slight yellow background */
+  color: #fff;
+  width: 70%; /* Set the width as a percentage to make it responsive */
+  transition: all 0.3s ease;
+  text-indent: 10px; /* To leave space for the icon */
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.searchButton {
+  position: absolute;
+  right: 10px; /* Positioning the icon to the right inside the input */
+  top: 50%;
+  transform: translateY(-50%); /* Centering the icon vertically */
+  background-color: #dadad700; /* Yellow background fill for the button */
+  border: none;
+  border-radius: 30%;
+  padding: 1px;
+  margin-top: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.searchButton:hover {
+  color: #d8e900; /* Darken the yellow on hover */
+}
+
+.searchIcon {
+  color: #d8e900; /* Dark color for the search icon */
+  font-size: 25px;
+}
+
+.airlineContainer {
+  display: flex;
+  width: 90%;
+  justify-content: space-between; /* Pushes the content to the left and right */
+  align-items: center; /* Vertically centers the content */
+  padding: 20px 0px; /* Adjust padding for spacing */
+}
+
+.airlineName {
+  font-size: 16px; /* Adjust font size for the airline name */
+  color: #fff; /* White color for the text */
+  font-weight: normal; /* Bold to make it stand out */
+}
+
+.flightNumber {
+  font-size: 16px; /* Slightly smaller for the flight number */
+  color: #e9ff26; /* Yellow color for the flight number */
+  font-weight: normal; /* Regular weight for the flight number */
+}
