@@ -1,32 +1,36 @@
 .detailsContainer {
   flex: 1;
   padding: 2rem;
-  background-color: #020202; /* Dark background color */
+  background-color: #020202;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  border-right: 1px solid #333333; /* Subtle divider between sections */
-  overflow-y: auto; /* Ensures content scrolls if it overflows */
+  border-right: 1px solid #333333; 
+  overflow-y: auto;
 }
 
+/* search */
 .inputContainer {
   position: relative;
-  width: 40%; /* Make sure it takes the full width */
+  width: 33%;
   display: flex;
-  justify-content: center; /* Centers the input container */
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(233, 255, 38, 0.15);
+  border-radius: 20px;
 }
 
 .input {
-  padding: 5px 15px;
+  padding: 10px 10px;
   font-size: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.5); /* Transparent border */
+  border: none;
   border-radius: 30px;
-  background-color: rgba(233, 255, 38, 0.1); /* Slight yellow background */
-  color: #fff;
-  width: 70%; /* Set the width as a percentage to make it responsive */
-  transition: all 0.3s ease;
-  text-indent: 10px; /* To leave space for the icon */
+  background-color: transparent;
+  color: #d1d5db;
+  width: 70%;
+  text-indent: 10px;
+  outline: none;
 }
 
 .input::placeholder {
@@ -35,43 +39,234 @@
 
 .searchButton {
   position: absolute;
-  right: 10px; /* Positioning the icon to the right inside the input */
-  top: 50%;
-  transform: translateY(-50%); /* Centering the icon vertically */
-  background-color: #dadad700; /* Yellow background fill for the button */
+  right: 5px;
+  background-color: transparent;
   border: none;
-  border-radius: 30%;
-  padding: 1px;
-  margin-top: 2px;
+  border-radius: 50%;
+  padding: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease; /* Smooth transition effect */
 }
 
-.searchButton:hover {
-  color: #d8e900; /* Darken the yellow on hover */
+.searchButton:focus {
+  background-color: lightgrey; /* Light grey color on focus */
 }
 
 .searchIcon {
-  color: #d8e900; /* Dark color for the search icon */
-  font-size: 25px;
+  color: #c3c4b8;
+  font-size: 16px;
 }
 
+.searchButton:hover .searchIcon {
+  color: #d8e900; /* Change icon color to black on hover for contrast */
+}
+
+
+/* row 1: arline and flight number */
 .airlineContainer {
   display: flex;
   width: 90%;
-  justify-content: space-between; /* Pushes the content to the left and right */
+  justify-content: center; /* Centers the content */
   align-items: center; /* Vertically centers the content */
   padding: 20px 0px; /* Adjust padding for spacing */
 }
 
 .airlineName {
   font-size: 16px; /* Adjust font size for the airline name */
-  color: #fff; /* White color for the text */
-  font-weight: normal; /* Bold to make it stand out */
+  color: #d1d5db; /* White color for the text */
+  font-weight: normal; /* Regular weight for the text */
+}
+
+.separator {
+  font-size: 16px; /* Adjust size for the separator */
+  color: #d1d5db; /* Same color as airline name for consistency */
+  margin: 0 5px; /* Adds spacing between the airline name and flight number */
 }
 
 .flightNumber {
   font-size: 16px; /* Slightly smaller for the flight number */
   color: #e9ff26; /* Yellow color for the flight number */
   font-weight: normal; /* Regular weight for the flight number */
+}
+
+/* row 2: arline and flight number */
+.flightDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+  max-width: 800px;
+  padding: px 0;
+}
+
+.cityContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.cityContainer:first-child {
+  text-align: left; /* Align the first city container to the left */
+}
+
+.cityContainer:last-child {
+  text-align: right; /* Align the second city container to the right */
+}
+
+.airportCode {
+  font-size: 40px;
+  font-weight: bold;
+  color: #969f81;
+}
+
+.cityName1 {
+  font-size: 12px;
+  color: #e9ff26; /* Light grey */
+  margin-bottom: 10px;
+}
+
+.cityName2 {
+  font-size: 12px;
+  color: #e9ff26; /* Light grey */
+  margin-bottom: 10px;
+}
+
+.statusBar {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  margin: 0 20px;
+  position: relative;
+}
+
+.statusDot {
+  width: 12px;
+  height: 12px;
+  background-color: #d8e900; /* Yellow */
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.statusLine {
+  flex: 1;
+  height: 3px;
+  background-color: #d1d5db; /* Grey */
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 1;
+}
+
+.planeIcon {
+  color: #d8e900;
+  font-size: 30px;
+  transform: rotate(45deg);
+}
+
+/* Overall progress bar container */
+.progressBarContainer {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin-top: 12px;
+  position: relative;
+  color: #d8e900;
+}
+
+.progressBar {
+  width: 100%;
+  height: 3px;
+  background-color: #d8e900;
+  border-radius: 10px;
+  position: absolute;
+}
+
+.progressBar::-webkit-progress-value {
+  background-color: #d8e900; /* Yellow for progress */
+}
+
+.dot {
+  font-size: 24px;
+  color: #d1d5db;
+  position: absolute;
+}
+
+.dot:first-child {
+  left: -8px; /* Position the first dot at the left end */
+}
+
+.dot:last-child {
+  right: -8px; /* Position the second dot at the right end */
+}
+
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 70px;
+  margin-top: 3px;
+}
+
+.label {
+  position: absolute;
+  background-color: rgba(233, 255, 38, 0.15) !important; /* Light yellow background */
+  color: white !important; 
+  font-size: 12px !important;
+  font-weight: bold !important;
+  padding: 6px 12px !important;
+
+}
+
+.timingData {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.departureContainer {
+  flex: 1;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: bold;
+  color: #e9ff26;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.flightInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+
+.label1 {
+  font-size: 14px;
+  font-weight: bold;
+  color: #e9ff26;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.data {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 5px;
+  text-align: center;
+  width: 100%;
 }

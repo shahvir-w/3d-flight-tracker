@@ -6,15 +6,15 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiczN3YWhhYiIsImEiOiJjbTZxNG9sbTcxbXZlMmpvcW5wd
 
 
 const Globe = () => {
-  /*
+  
   return (
     
     <div className={styles.globeContainer}>
     </div>
   );
 }
-  */
-
+ 
+/*
   const globeContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
 
@@ -37,5 +37,5 @@ const Globe = () => {
   return <div ref={globeContainer} className={styles.globeContainer}></div>;
 };
 
-
+*/
 export default Globe;

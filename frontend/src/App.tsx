@@ -1,6 +1,8 @@
 import Globe from './components/Globe';
 import FlightDetails from './components/FlightDetails';
+import 'semantic-ui-css/semantic.min.css'
 import styles from './App.module.css';
+
 
 function App() {
   return (
@@ -12,3 +14,4 @@ function App() {
 }
 
 export default App;
+
