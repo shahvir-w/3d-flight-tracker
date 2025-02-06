@@ -1,17 +1,19 @@
 .detailsContainer {
-  flex: 1;
+  flex: 2;
+  max-width: 555px;
+  min-width: 390px;
   padding: 2rem;
-  background-color: #020202;
+  background-color: #000000;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  border-right: 1px solid #333333; 
   overflow-y: auto;
 }
 
 /* search */
 .inputContainer {
+  margin-top: 80px;
   position: relative;
   width: 33%;
   display: flex;
@@ -89,13 +91,19 @@
   font-weight: normal; /* Regular weight for the flight number */
 }
 
+.status {
+  font-size: 16px; /* Slightly smaller for the flight number */
+  color: #06fc16; /* Yellow color for the flight number */
+  font-weight: normal; /* Regular weight for the flight number */
+}
+
 /* row 2: arline and flight number */
 .flightDetails {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 95%;
-  max-width: 800px;
+  max-width: 460px;
   padding: px 0;
 }
 
@@ -160,7 +168,7 @@
 
 .planeIcon {
   color: #d8e900;
-  font-size: 30px;
+  font-size: 35px;
   transform: rotate(45deg);
 }
 
@@ -203,12 +211,12 @@
 .labelContainer {
   display: flex;
   justify-content: space-between;
-  gap: 70px;
+  gap: 175px;
   margin-top: 3px;
 }
 
 .label {
-  position: absolute;
+  position: fixed;
   background-color: rgba(233, 255, 38, 0.15) !important; /* Light yellow background */
   color: white !important; 
   font-size: 12px !important;
@@ -220,38 +228,79 @@
 .timingData {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  padding: 10px;
-  border-radius: 15px;
+  align-items: center;
+  width: 95%;
+  margin-top: 25px;
+  gap: 20px;
 }
 
-.departureContainer {
+.departure_arrivalContainer {
   flex: 1;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: left;
+  gap: 20px;
 }
 
+.date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .sectionTitle {
-  font-size: 15px;
-  font-weight: bold;
-  color: #e9ff26;
-  text-transform: uppercase;
-  margin-bottom: 6px;
+  font-size: 13px;
+  color: rgb(178, 193, 49);
+  margin-bottom: 3px;
   text-align: center;
 }
 
-.flightInfo {
+.dateText {
+  font-size: 17px;
+  color: rgb(166, 167, 152);
+  border-radius: 5px;
+  text-align: center;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid rgba(211, 220, 50, 0.6);
+}
+
+.row1 {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+
+.sectionText {
+  font-size: 20px;
+  color: rgb(228, 229, 212);
+  font-weight: 800;
+  text-align: center;
+  width: 100%;
+}
+
+.pair {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 12px 0;
   font-size: 15px;
   font-weight: 500;
+  flex: 1;
 }
 
+.pair1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 500;
+  flex: 1;
+  border-left: 1px solid rgba(211, 220, 50, 0.6);
+}
 
 .label1 {
   font-size: 14px;
@@ -261,12 +310,43 @@
   margin-bottom: 5px;
 }
 
-.data {
+.flightStats {
+  margin-top: 25px;
+  align-content: center;
+  justify-content: space-between;
+  display: flex;
+  width: 90%;
+  min-width: 380px;
+  background-color: rgba(233, 255, 38, 0.15);
+  padding: 20px;
+  border-radius: 5%;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Space between icon and text */
+}
+
+.col {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}
+
+.icon {
   font-size: 16px;
-  font-weight: 600;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 5px;
-  text-align: center;
-  width: 100%;
+  color: #e9ff26; /* Light yellow for icons */
+}
+
+.label2 {
+  font-size: 13px;
+  font-weight: bold;
+  color: #b3bd9a; /* Light gray */
+}
+
+.value {
+  font-size: 15px;
+  font-weight: bold;
+  color: rgb(228, 229, 212);
 }
