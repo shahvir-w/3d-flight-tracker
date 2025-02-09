@@ -1,5 +1,5 @@
 import express from 'express';
-import flightnumsRouter from './routes/flightNums'
+import flightDataRouter from './routes/flightData'
 import cors from "cors";
 
 const app = express();
@@ -12,7 +12,7 @@ app.use(cors({
   }));
 
 // routes
-app.use('/api/flights', flightnumsRouter)
+app.use('/api/flights', flightDataRouter)
 
 // listener
 app.listen(PORT, () => {

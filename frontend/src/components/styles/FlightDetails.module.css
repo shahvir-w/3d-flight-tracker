@@ -13,9 +13,8 @@
 
 /* search */
 .inputContainer {
-  margin-top: 80px;
   position: relative;
-  width: 33%;
+  width: 120px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -47,12 +46,8 @@
   border-radius: 50%;
   padding: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth transition effect */
 }
 
-.searchButton:focus {
-  background-color: lightgrey; /* Light grey color on focus */
-}
 
 .searchIcon {
   color: #c3c4b8;
@@ -60,7 +55,7 @@
 }
 
 .searchButton:hover .searchIcon {
-  color: #d8e900; /* Change icon color to black on hover for contrast */
+  color: #d8e900;
 }
 
 
@@ -105,6 +100,7 @@
   width: 95%;
   max-width: 460px;
   padding: px 0;
+  align-items: center;
 }
 
 .cityContainer {
@@ -170,6 +166,7 @@
   color: #d8e900;
   font-size: 35px;
   transform: rotate(45deg);
+  position: sticky;
 }
 
 /* Overall progress bar container */
@@ -315,11 +312,10 @@
   align-content: center;
   justify-content: space-between;
   display: flex;
-  width: 90%;
-  min-width: 380px;
-  background-color: rgba(233, 255, 38, 0.15);
+  width: 95%;
+  max-width: 400px;
   padding: 20px;
-  border-radius: 5%;
+  outline: 1px solid #e9ff26;
 }
 
 .statItem {

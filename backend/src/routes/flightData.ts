@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getFlightData, getSavedFlight, addSavedFlight } from "../controllers/flightNums";
+import { getFlightData, getSavedFlight, addSavedFlight } from "../controllers/flightData";
 
 const router = Router();
 
