@@ -9,6 +9,8 @@ export type parsedFlight = {
       airport_code: string;
       airport_name: string;
     };
+    departure_date: string;
+    arrival_date: string;
     scheduled_out: string;
     estimated_out?: string | null;
     actual_out?: string | null;

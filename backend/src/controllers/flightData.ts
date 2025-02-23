@@ -1,48 +1,41 @@
 import { Request, Response } from "express-serve-static-core";
+import { parseFlightData, parseFlightPositionData } from "../utils/parseData";
+import { FlightsData } from "../types/AreoAPI";
 import dotenv from "dotenv";
 import axios from "axios";
-//import {flightData, flightPositionData} from '../flightData'
-import { parseFlightData, parseFlightPositionData } from "../utils/parseData";
-import { FlightsData } from "../models/AreoAPI";
+
 dotenv.config();
 
 const API_KEY = process.env.API_KEY;
-if (!API_KEY) {
-  console.error("API_KEY is undefined.");
-}
-
 const AeroAPI_URL: string = `https://aeroapi.flightaware.com/aeroapi/flights/`;
 
 export const getFlightData = async (req: Request, res: Response): Promise<void> => {
     try {
-        console.log("API Key:", API_KEY); // Check if it's correctly loaded
+        let { flightNum } = req.params;
+        flightNum = flightNum.toUpperCase();
 
-        const now = new Date();
-        const { flightNum } = req.params;
-        console.log(flightNum)
+        // Fetch flight data
         const response = await axios.get(`${AeroAPI_URL}${flightNum}`, {
-            headers: {
-                "x-apikey": API_KEY,
-            },
+            headers: { "x-apikey": API_KEY },
         });
-        
-        console.log(response)
+
         const flights = response.data as FlightsData;
-        
         let { targetFlight, twoUpcomingFlights, twoPreviousFlights } = parseFlightData(flights);
-        
+
+        let updatedTargetFlight = targetFlight;
+
         if (targetFlight) {
-            const response = await axios.get(`${AeroAPI_URL}${targetFlight.fa_flight_id}/position`, {
-                headers: {
-                    "x-apikey": API_KEY,
-                },
-            });
+            try {
+                const positionResponse = await axios.get(`${AeroAPI_URL}${targetFlight.fa_flight_id}/position`, {
+                    headers: { "x-apikey": API_KEY },
+                });
+
+                const positionData = parseFlightPositionData(positionResponse.data, targetFlight);
+                updatedTargetFlight = positionData.updatedTargetFlight ?? targetFlight;
+            } catch (positionError) {
+                console.error("Error fetching flight position data:", positionError);
+            }
         }
-
-        const flightPositionData = response.data;
-        
-        const updatedTargetFlight = targetFlight ? parseFlightPositionData(flightPositionData, targetFlight) : targetFlight;
-
 
         res.status(200).json({
             updatedTargetFlight,
@@ -51,9 +44,10 @@ export const getFlightData = async (req: Request, res: Response): Promise<void> 
         });
 
     } catch (error) {
-        res.status(500).json({ error: error });
+        console.error("Error fetching flight data:", error);
+        res.status(500).json({ error: "Failed to fetch flight data" });
     }
-}
+};
 
 export const getSavedFlight = async (req: Request, res: Response) => {
     try {

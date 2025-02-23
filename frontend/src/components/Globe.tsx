@@ -8,7 +8,6 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiczN3YWhhYiIsImEiOiJjbTZxNG9sbTcxbXZlMmpvcW5wd
 const Globe = () => {
   
   return (
-    
     <div className={styles.globeContainer}>
     </div>
   );

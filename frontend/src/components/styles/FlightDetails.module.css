@@ -11,53 +11,6 @@
   overflow-y: auto;
 }
 
-/* search */
-.inputContainer {
-  position: relative;
-  width: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: rgba(233, 255, 38, 0.15);
-  border-radius: 20px;
-}
-
-.input {
-  padding: 10px 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 30px;
-  background-color: transparent;
-  color: #d1d5db;
-  width: 70%;
-  text-indent: 10px;
-  outline: none;
-}
-
-.input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.searchButton {
-  position: absolute;
-  right: 5px;
-  background-color: transparent;
-  border: none;
-  border-radius: 50%;
-  padding: 5px;
-  cursor: pointer;
-}
-
-
-.searchIcon {
-  color: #c3c4b8;
-  font-size: 16px;
-}
-
-.searchButton:hover .searchIcon {
-  color: #d8e900;
-}
-
 
 /* row 1: arline and flight number */
 .airlineContainer {
@@ -313,7 +266,7 @@
   justify-content: space-between;
   display: flex;
   width: 95%;
-  max-width: 400px;
+  max-width: 420px;
   padding: 20px;
   outline: 1px solid #e9ff26;
 }

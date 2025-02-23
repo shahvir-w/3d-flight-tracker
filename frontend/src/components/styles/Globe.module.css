@@ -3,12 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #000000;
+  background-color: #302c2c;
   position: relative;
   overflow: hidden;
-}
-
-.rectangle p {
-  font-size: 2rem;
-  font-weight: 700;
 }

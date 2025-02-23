@@ -1,12 +1,13 @@
-import { parsedFlight } from "../models/parsedFlight.model";
-import { FlightsData } from "../models/AreoAPI";
+import { parsedFlight } from "../types/parsedFlight";
+import { FlightsData } from "../types/AreoAPI";
+import { calculateFlightTimes, convertToEasternTime } from "./timeCalculations";
 
 export const parseFlightData = (flightData: FlightsData): {
   targetFlight: parsedFlight | null,
   twoUpcomingFlights: parsedFlight[],
   twoPreviousFlights: parsedFlight[]
 } => {
-  const now = new Date();
+  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
 
   // sort flights based on date ascending
   const sortedFlights = flightData.flights.sort(
@@ -32,15 +33,17 @@ export const parseFlightData = (flightData: FlightsData): {
         airport_code: flight.destination.code_iata,
         airport_name: flight.destination.name,
       },
-      scheduled_out: flight.scheduled_out,
-      estimated_out: flight.estimated_out,
-      actual_out: flight.actual_out,
-      scheduled_in: flight.scheduled_in,
-      estimated_in: flight.estimated_in,
-      actual_in: flight.actual_in,
+      departure_date: flight.scheduled_out,
+      arrival_date: flight.scheduled_in,
+      scheduled_out: convertToEasternTime(flight.scheduled_out),
+      estimated_out: convertToEasternTime(flight.estimated_out),
+      actual_out: convertToEasternTime(flight.actual_out),
+      scheduled_in: convertToEasternTime(flight.scheduled_in),
+      estimated_in: convertToEasternTime(flight.estimated_in),
+      actual_in: convertToEasternTime(flight.actual_in),
       progress_percent: flight.progress_percent,
       status: flight.status,
-      route_distance: flight.route_distance,
+      route_distance: flight.route_distance * 1.60934,
       origin_gate: flight.gate_origin,
       origin_terminal: flight.terminal_origin,
       destination_gate: flight.gate_destination,
@@ -63,55 +66,26 @@ export const parseFlightData = (flightData: FlightsData): {
   }
 
   // get two of the closest flights to targetFlight by date
-  let twoUpcomingFlights: parsedFlight[] = [];
-  let twoPreviousFlights: parsedFlight[] = [];
-  previousFlights.reverse();
+  const twoUpcomingFlights = upcomingFlights.slice(0, 2);
+  const twoPreviousFlights = previousFlights.reverse().slice(0, 2);
 
-  for (let i = 0; i < 2; i++) {
-    twoUpcomingFlights[i] = upcomingFlights[i];
-    twoPreviousFlights[i] = previousFlights[i];
-  }
+  const { timeElapsed, timeRemaining, totalTime } = calculateFlightTimes(targetFlight, now);
 
-
-  // determine timeElapsed, timeRemaining, totalTime, and distanceRemaining
-  const actualOut = targetFlight?.actual_out ? new Date(targetFlight.actual_out) : null;
-  const scheduledIn = targetFlight?.scheduled_in ? new Date(targetFlight.scheduled_in) : null;
-  const scheduledOut = targetFlight?.scheduled_out ? new Date(targetFlight.scheduled_out) : null;
-
-  const timeElapsed = actualOut ? Math.max(0, (now.getTime() - actualOut.getTime()) / 1000 / 60) : null;
-  const timeRemaining = scheduledIn ? Math.max(0, (scheduledIn.getTime() - now.getTime()) / 1000 / 60) : null;
-
-  const totalTimeInMilliseconds = scheduledIn && scheduledOut ? scheduledIn.getTime() - scheduledOut.getTime() : null;
-  const totalTimeInMinutes = totalTimeInMilliseconds ? totalTimeInMilliseconds / (1000 * 60) : null;
-
-  const formatTime = (minutes: number): string => {
-    const hours = Math.floor(minutes / 60);
-    const mins = Math.floor(minutes % 60);
-    return `${hours}h ${mins < 10 ? '0' + mins : mins}m`;
-  };
-
-  const formattedTimeElapsed = timeElapsed !== null ? formatTime(timeElapsed) : null;
-  const formattedTimeRemaining = timeRemaining !== null ? formatTime(timeRemaining) : null;
-  const formattedTimeTotal = totalTimeInMinutes !== null ? formatTime(totalTimeInMinutes) : null;
-
-
+  // determine remaining distance
   const percentFlightCompletion: number = targetFlight?.progress_percent ? targetFlight.progress_percent / 100 : 0;
-  const routeDistance: number = targetFlight?.route_distance ?? 0;
-  const distanceRemaining: number = Math.round(routeDistance * (1 - percentFlightCompletion));
+  const routeDistance: number = targetFlight?.route_distance ? Math.round((targetFlight?.route_distance * 1.60934) * 100) / 100 : 0;
+  const distanceRemaining: number = Math.round((routeDistance * (1 - percentFlightCompletion)) * 100) / 100;
 
   const calculatedData = {
-    timeElapsed: formattedTimeElapsed,
-    timeRemaining: formattedTimeRemaining,
-    totalTime: formattedTimeTotal,
-    distanceRemaining: distanceRemaining
+    timeElapsed,
+    timeRemaining,
+    totalTime,
+    distanceRemaining
   };
 
-  // add data to targetFlight
+  // Add data to targetFlight
   if (targetFlight) {
-    targetFlight = {
-      ...targetFlight,
-      ...calculatedData,
-    };
+    targetFlight = { ...targetFlight, ...calculatedData };
   }
 
   return { targetFlight, twoUpcomingFlights, twoPreviousFlights };
@@ -119,7 +93,7 @@ export const parseFlightData = (flightData: FlightsData): {
 
 export const parseFlightPositionData = (flightPositionData: any, targetFlight: parsedFlight): { updatedTargetFlight: parsedFlight | null } => {
   const lastPosition = flightPositionData?.last_position;
-
+  console.log(lastPosition)
   if (!lastPosition) {
     return { updatedTargetFlight: null };
   }
@@ -129,8 +103,8 @@ export const parseFlightPositionData = (flightPositionData: any, targetFlight: p
     time_now: new Date(),
     latitude: lastPosition.latitude,
     longitude: lastPosition.longitude,
-    altitude: lastPosition.altitude,
-    groundSpeed: lastPosition.groundspeed,
+    altitude: Math.round(lastPosition.altitude * 100 * 0.3048),
+    groundSpeed: Math.round(lastPosition.groundspeed * 1.60934),
   };
 
   // Combine position data with existing targetFlight data
