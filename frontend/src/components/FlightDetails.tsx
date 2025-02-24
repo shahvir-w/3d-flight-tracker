@@ -6,12 +6,12 @@ import { FaPlane, FaTachometerAlt, FaCloud, FaClock, FaRoute, FaMapMarkerAlt } f
 
 const FlightDetails = ({ flightData }: { flightData: any }) => {
   const targetFlight = flightData.updatedTargetFlight;
+  const previousFlights = flightData.twoPreviousFlights;
+  const upcomingFlights = flightData.twoUpcomingFlights;
 
   return (
     <div className={styles.detailsContainer}>
         <div className={styles.airlineContainer}>
-          <span className={styles.airlineName}>Airline</span>
-          <span className={styles.separator}> / </span>
           <span className={styles.flightNumber}>{targetFlight.ident}</span>
           <span className={styles.separator}> / </span>
           <span className={styles.status}>{targetFlight.status}</span>
@@ -34,7 +34,7 @@ const FlightDetails = ({ flightData }: { flightData: any }) => {
             <div className={styles.airportCode}>{targetFlight.arrival_city.airport_code}</div>
           </div>
         </div>
-
+    
         {/* Progress Bar Container */}
         <div className={styles.progressBarContainer}>
         <GoDotFill className={styles.dot} />
@@ -43,7 +43,7 @@ const FlightDetails = ({ flightData }: { flightData: any }) => {
         <GoDotFill className={styles.dot} />
         </div>
 
-        {targetFlight.progress_percent < 100 && (
+        {targetFlight.progress_percent < 100 && targetFlight.progress_percent > 0 && (
           <>
             <div className={styles.labelContainer}>
               <Label pointing className={styles.label}>{`${targetFlight.timeElapsed} elapsed`}</Label>
@@ -125,6 +125,7 @@ const FlightDetails = ({ flightData }: { flightData: any }) => {
         </div>
 
         {/* flight stats */}
+        <h2 className={styles.flightStatsTitle}>FLIGHT STATS</h2>
         <div className={styles.flightStats}>
           <div className={styles.col}>
             <div className={styles.statItem}>
@@ -135,7 +136,7 @@ const FlightDetails = ({ flightData }: { flightData: any }) => {
 
             <div className={styles.statItem}>
               <FaTachometerAlt className={styles.icon} />
-              <span className={styles.label2}>Ground Speed:</span>
+              <span className={styles.label2}>Speed:</span>
               <span className={styles.value}>{`${targetFlight.groundSpeed? targetFlight.groundSpeed : 0} kph`}</span>
             </div>
 
@@ -168,8 +169,77 @@ const FlightDetails = ({ flightData }: { flightData: any }) => {
         </div>
 
         {/* other flights */}
-        
+
+        <div className={styles.tableContainer}>
+          <h2>PREVIOUS FLIGHTS</h2>
+          <table className={styles.flightTable}>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Departure</th>
+                <th>Arrival</th>
+              </tr>
+            </thead>
+            <tbody>
+              {previousFlights.length === 0 ? (
+                <tr>
+                  <td colSpan="3" className={styles.noFlights}>No flights available</td>
+                </tr>
+              ) : (
+                previousFlights.map((flight, index) => (
+                  <tr key={index}>
+                    <td>
+                      <em>{flight.departure_date.slice(0, 10)}</em>
+                    </td>
+                    <td>
+                      <em>{flight.actual_out? flight.actual_out.slice(0, 5) : flight.estimated_out.slice(0, 5)} EST</em>
+                    </td>
+                    <td>
+                    <em>{flight.actual_in? flight.actual_in.slice(0, 5) : flight.estimated_in.slice(0, 5)} EST</em>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <div className={styles.tableContainer}>
+          <h2>UPCOMING FLIGHTS</h2>
+          <table className={styles.flightTable}>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Departure</th>
+                <th>Arrival</th>
+              </tr>
+            </thead>
+            <tbody>
+              {upcomingFlights.length === 0 ? (
+                <tr>
+                  <td colSpan="3" className={styles.noFlights}>No flights available</td>
+                </tr>
+              ) : (
+                upcomingFlights.map((flight, index) => (
+                  <tr key={index}>
+                    <td>
+                      <em>{flight.departure_date.slice(0, 10)}</em>
+                    </td>
+                    <td>
+                      <em>{flight.scheduled_out.slice(0, 5)} EST</em>
+                    </td>
+                    <td>
+                      <em>{flight.scheduled_in.slice(0, 5)} EST</em>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
     </div>
+
       
   );
 };

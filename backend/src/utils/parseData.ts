@@ -43,7 +43,7 @@ export const parseFlightData = (flightData: FlightsData): {
       actual_in: convertToEasternTime(flight.actual_in),
       progress_percent: flight.progress_percent,
       status: flight.status,
-      route_distance: flight.route_distance * 1.60934,
+      route_distance: Math.round(flight.route_distance * 1.60934),
       origin_gate: flight.gate_origin,
       origin_terminal: flight.terminal_origin,
       destination_gate: flight.gate_destination,
@@ -73,8 +73,8 @@ export const parseFlightData = (flightData: FlightsData): {
 
   // determine remaining distance
   const percentFlightCompletion: number = targetFlight?.progress_percent ? targetFlight.progress_percent / 100 : 0;
-  const routeDistance: number = targetFlight?.route_distance ? Math.round((targetFlight?.route_distance * 1.60934) * 100) / 100 : 0;
-  const distanceRemaining: number = Math.round((routeDistance * (1 - percentFlightCompletion)) * 100) / 100;
+  const routeDistance: number = targetFlight?.route_distance ? targetFlight?.route_distance : 0;
+  const distanceRemaining: number = Math.round(routeDistance * (1 - percentFlightCompletion));
 
   const calculatedData = {
     timeElapsed,

@@ -1,93 +1,155 @@
 export const flights = {
     "updatedTargetFlight": {
-        "ident": "ROU1818",
-        "fa_flight_id": "ROU1818-1740119278-airline-1124p",
+        "ident": "BAW98",
+        "fa_flight_id": "BAW98-1740120877-airline-1800p",
         "departure_city": {
             "airport_code": "YYZ",
             "airport_name": "Toronto Pearson Int'l"
         },
         "arrival_city": {
-            "airport_code": "BDA",
-            "airport_name": "Bermuda Int'l"
+            "airport_code": "LHR",
+            "airport_name": "London Heathrow"
         },
-        "departure_date": "2025-02-23T13:15:00Z",
-        "arrival_date": "2025-02-23T16:05:00Z",
-        "scheduled_out": "08:15:00",
-        "estimated_out": "08:15:00",
-        "actual_out": "",
-        "scheduled_in": "11:05:00",
-        "estimated_in": "11:10:00",
+        "departure_date": "2025-02-24T03:05:00Z",
+        "arrival_date": "2025-02-24T10:15:00Z",
+        "scheduled_out": "22:05:00",
+        "estimated_out": "22:05:00",
+        "actual_out": "22:01:00",
+        "scheduled_in": "05:15:00",
+        "estimated_in": "05:12:00",
         "actual_in": "",
-        "progress_percent": 0,
-        "status": "Scheduled",
-        "route_distance": 1812.11684,
-        "origin_gate": "E78",
-        "origin_terminal": "1",
+        "progress_percent": 42,
+        "status": "En Route / Delayed",
+        "route_distance": 5747,
+        "origin_gate": null,
+        "origin_terminal": "3",
         "destination_gate": null,
-        "destination_terminal": null,
-        "aircraft_type": "A321",
-        "timeElapsed": null,
-        "timeRemaining": null,
-        "totalTime": null,
-        "distanceRemaining": 2916.31
+        "destination_terminal": "5",
+        "aircraft_type": "B789",
+        "timeElapsed": "0h 00m",
+        "timeRemaining": "3h 46m",
+        "totalTime": "-17h -49m",
+        "distanceRemaining": 5364,
+        "time_now": "2025-02-24T06:25:38.617Z",
+        "latitude": 51.88333,
+        "longitude": -50.2,
+        "altitude": 12497,
+        "groundSpeed": 869
     },
-    "twoUpcomingFlights": [],
+    "twoUpcomingFlights": [
+        {
+            "ident": "BAW98",
+            "fa_flight_id": "BAW98-1740206822-airline-1089p",
+            "departure_city": {
+                "airport_code": "YYZ",
+                "airport_name": "Toronto Pearson Int'l"
+            },
+            "arrival_city": {
+                "airport_code": "LHR",
+                "airport_name": "London Heathrow"
+            },
+            "departure_date": "2025-02-25T03:05:00Z",
+            "arrival_date": "2025-02-25T10:15:00Z",
+            "scheduled_out": "22:05:00",
+            "estimated_out": "22:05:00",
+            "actual_out": "",
+            "scheduled_in": "05:15:00",
+            "estimated_in": "05:15:00",
+            "actual_in": "",
+            "progress_percent": 0,
+            "status": "Scheduled",
+            "route_distance": 5826,
+            "origin_gate": null,
+            "origin_terminal": "3",
+            "destination_gate": null,
+            "destination_terminal": "5",
+            "aircraft_type": "B789"
+        },
+        {
+            "ident": "BAW98",
+            "fa_flight_id": "BAW98-1740292940-airline-1890p",
+            "departure_city": {
+                "airport_code": "YYZ",
+                "airport_name": "Toronto Pearson Int'l"
+            },
+            "arrival_city": {
+                "airport_code": "LHR",
+                "airport_name": "London Heathrow"
+            },
+            "departure_date": "2025-02-26T03:05:00Z",
+            "arrival_date": "2025-02-26T10:15:00Z",
+            "scheduled_out": "22:05:00",
+            "estimated_out": "22:05:00",
+            "actual_out": "",
+            "scheduled_in": "05:15:00",
+            "estimated_in": "05:15:00",
+            "actual_in": "",
+            "progress_percent": 0,
+            "status": "Scheduled",
+            "route_distance": 5713,
+            "origin_gate": null,
+            "origin_terminal": "3",
+            "destination_gate": null,
+            "destination_terminal": "5",
+            "aircraft_type": "B772"
+        }
+    ],
     "twoPreviousFlights": [
         {
-            "ident": "ROU1818",
-            "fa_flight_id": "ROU1818-1739773224-airline-370p",
+            "ident": "BAW98",
+            "fa_flight_id": "BAW98-1740030855-airline-1450p",
             "departure_city": {
                 "airport_code": "YYZ",
                 "airport_name": "Toronto Pearson Int'l"
             },
             "arrival_city": {
-                "airport_code": "BDA",
-                "airport_name": "Bermuda Int'l"
+                "airport_code": "LHR",
+                "airport_name": "London Heathrow"
             },
-            "departure_date": "2025-02-19T13:15:00Z",
-            "arrival_date": "2025-02-19T16:05:00Z",
-            "scheduled_out": "08:15:00",
-            "estimated_out": "08:40:00",
-            "actual_out": "08:39:00",
-            "scheduled_in": "11:05:00",
-            "estimated_in": "11:36:03",
-            "actual_in": "11:27:00",
+            "departure_date": "2025-02-23T03:05:00Z",
+            "arrival_date": "2025-02-23T10:15:00Z",
+            "scheduled_out": "22:05:00",
+            "estimated_out": "22:05:00",
+            "actual_out": "22:00:00",
+            "scheduled_in": "05:15:00",
+            "estimated_in": "05:05:00",
+            "actual_in": "05:03:00",
             "progress_percent": 100,
             "status": "Arrived / Gate Arrival",
-            "route_distance": 1812.11684,
-            "origin_gate": "E72",
-            "origin_terminal": "1",
+            "route_distance": 5829,
+            "origin_gate": null,
+            "origin_terminal": "3",
             "destination_gate": null,
-            "destination_terminal": null,
-            "aircraft_type": "A321"
+            "destination_terminal": "5",
+            "aircraft_type": "B772"
         },
         {
-            "ident": "ROU1818",
-            "fa_flight_id": "ROU1818-1739514676-airline-420p",
+            "ident": "BAW98",
+            "fa_flight_id": "BAW98-1739946937-airline-552p",
             "departure_city": {
                 "airport_code": "YYZ",
                 "airport_name": "Toronto Pearson Int'l"
             },
             "arrival_city": {
-                "airport_code": "BDA",
-                "airport_name": "Bermuda Int'l"
+                "airport_code": "LHR",
+                "airport_name": "London Heathrow"
             },
-            "departure_date": "2025-02-16T13:15:00Z",
-            "arrival_date": "2025-02-16T16:05:00Z",
-            "scheduled_out": "08:15:00",
-            "estimated_out": "09:05:00",
-            "actual_out": "09:02:00",
-            "scheduled_in": "11:05:00",
-            "estimated_in": "12:20:00",
-            "actual_in": "12:22:00",
+            "departure_date": "2025-02-22T03:05:00Z",
+            "arrival_date": "2025-02-22T10:15:00Z",
+            "scheduled_out": "22:05:00",
+            "estimated_out": "22:27:00",
+            "actual_out": "22:29:00",
+            "scheduled_in": "05:15:00",
+            "estimated_in": "06:16:05",
+            "actual_in": "06:25:00",
             "progress_percent": 100,
             "status": "Arrived / Delayed",
-            "route_distance": 1812.11684,
-            "origin_gate": "E81",
-            "origin_terminal": "1",
-            "destination_gate": "H",
-            "destination_terminal": null,
-            "aircraft_type": "A321"
+            "route_distance": 5757,
+            "origin_gate": null,
+            "origin_terminal": "3",
+            "destination_gate": null,
+            "destination_terminal": "5",
+            "aircraft_type": "B772"
         }
     ]
 }

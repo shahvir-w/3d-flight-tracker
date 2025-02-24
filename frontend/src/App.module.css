@@ -11,17 +11,25 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  padding-top: 20px;
 }
 
 .leftColumn {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 35px
+  padding-top: 20px;
 }
 
 .rightColumn {
   display: flex;
   color: aqua;
   width: 100%;
+}
+
+.errorMessage {
+  color: #d8e900;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 90px;
 }

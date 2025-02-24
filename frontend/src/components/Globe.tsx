@@ -12,7 +12,7 @@ const Globe = () => {
     </div>
   );
 }
- 
+
 /*
   const globeContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -35,6 +35,6 @@ const Globe = () => {
 
   return <div ref={globeContainer} className={styles.globeContainer}></div>;
 };
-
 */
+
 export default Globe;
