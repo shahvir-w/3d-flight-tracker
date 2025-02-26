@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import Globe from './components/Globe';
 import FlightDetails from './components/FlightDetails';
@@ -7,10 +7,14 @@ import styles from './App.module.css';
 import SearchBar from './components/SearchBar';
 import { flights } from './yeoo'; 
 
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 function App() {
   const [flightData, setFlightData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
-  
+
+
   const fetchFlightData = async (flightNum: string) => {
     /*
     try {
@@ -24,10 +28,10 @@ function App() {
       console.error('Error fetching flight data:', err);
       setError('Invalid flight number');
     }
-      */
-     setFlightData(flights)
+    */
+    setFlightData(flights);
   };
-  
+
   return (
     <div className={styles.appContainer}>
       {!flightData ? (
@@ -41,9 +45,8 @@ function App() {
             <SearchBar onSearch={fetchFlightData} />
             <FlightDetails flightData={flightData} />
           </div>
-          <div className={styles.rightColumn}>
-            <Globe />
-          </div>
+
+          <Globe flightData={flightData}/>
         </>
       )}
     </div>

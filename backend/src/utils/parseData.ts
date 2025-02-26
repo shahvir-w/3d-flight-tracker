@@ -1,12 +1,13 @@
 import { parsedFlight } from "../types/parsedFlight";
 import { FlightsData } from "../types/AreoAPI";
 import { calculateFlightTimes, convertToEasternTime } from "./timeCalculations";
+import getGeoLocationData from "../utils/getGeoLocation";
 
-export const parseFlightData = (flightData: FlightsData): {
+export const parseFlightData = async (flightData: FlightsData): Promise<{
   targetFlight: parsedFlight | null,
   twoUpcomingFlights: parsedFlight[],
   twoPreviousFlights: parsedFlight[]
-} => {
+}> => {
   const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
 
   // sort flights based on date ascending
@@ -86,6 +87,21 @@ export const parseFlightData = (flightData: FlightsData): {
   // Add data to targetFlight
   if (targetFlight) {
     targetFlight = { ...targetFlight, ...calculatedData };
+  }
+
+  // get airports location info
+  if (targetFlight) {
+    const departure_coordinates = await getGeoLocationData(targetFlight.departure_city.airport_name);
+    const arrival_coordinates = await getGeoLocationData(targetFlight.arrival_city.airport_name);
+    targetFlight.departure_city = {
+      ...targetFlight.departure_city,
+      ...departure_coordinates
+    }
+    targetFlight.arrival_city = {
+      ...targetFlight.arrival_city,
+      ...arrival_coordinates
+    }
+    
   }
 
   return { targetFlight, twoUpcomingFlights, twoPreviousFlights };

@@ -1,9 +1,54 @@
-.globeContainer {
-  flex: 4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #302c2c;
-  position: relative;
-  overflow: hidden;
+#root {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#map-container {
+  height: 500px; /* Ensure it's visible even without flight data */
+  width: 100%;
+  background-color: lightgrey; /* Temp debug */
+}
+
+.mapContainer {
+  flex: 1;
+  height: 100%;
+  min-height: 500px; /* Ensure it shows up */
+}
+
+
+.sidebar {
+  background-color: rgb(35 55 75 / 90%);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
+}
+
+.reset-button {
+  position: absolute;
+  top: 50px;
+  z-index: 1;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Globe.module.css */
+.planeIcon {
+  background-size: contain;
+  background-position: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }

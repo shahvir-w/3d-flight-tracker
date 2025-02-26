@@ -6,7 +6,7 @@ import axios from "axios";
 
 dotenv.config();
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.AERO_API_KEY;
 const AeroAPI_URL: string = `https://aeroapi.flightaware.com/aeroapi/flights/`;
 
 export const getFlightData = async (req: Request, res: Response): Promise<void> => {
@@ -20,7 +20,7 @@ export const getFlightData = async (req: Request, res: Response): Promise<void> 
         });
 
         const flights = response.data as FlightsData;
-        let { targetFlight, twoUpcomingFlights, twoPreviousFlights } = parseFlightData(flights);
+        let { targetFlight, twoUpcomingFlights, twoPreviousFlights } = await parseFlightData(flights);
 
         let updatedTargetFlight = targetFlight;
 
