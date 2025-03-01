@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import styles from './styles/Globe.module.css';
-import planeIconImage from '../assets/black-plane.png'; // Corrected import path for the image
+import planeIconImage from '../assets/Plane-Icon.svg'; // Corrected import path for the image
 
 const Globe = ({ flightData }: { flightData: any }) => {
   const targetFlight = flightData.updatedTargetFlight;
@@ -13,9 +13,13 @@ const Globe = ({ flightData }: { flightData: any }) => {
   const arrivalLat = targetFlight.arrival_city.lat;
   const arrivalLng = targetFlight.arrival_city.lng;
 
+
+  const adjustedPlaneLat = Math.max(-30, Math.min(30, planeLat + 30));
+  const adjustedArrivalLat = Math.max(-30, Math.min(30, arrivalLat + 30));
+
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-
+  
   const calculateBearing = (lat1: number, lng1: number, lat2: number, lng2: number) => {
     const rad = Math.PI / 180;
     const dLng = (lng2 - lng1) * rad;
@@ -24,7 +28,7 @@ const Globe = ({ flightData }: { flightData: any }) => {
     const y = Math.sin(dLng) * Math.cos(lat2);
     const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
     let bearing = Math.atan2(y, x) / rad;
-    bearing = (bearing + 360) % 360;
+    bearing = (bearing + 180) % 360;
     return bearing;
   };
 
@@ -35,7 +39,7 @@ const Globe = ({ flightData }: { flightData: any }) => {
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
         style: 'mapbox://styles/s3wahab/cm6qbho3l006y01qo3cpf2u2u',
-        center: [-72, 25],
+        center: planeLat? [planeLng, adjustedPlaneLat] : [arrivalLng, adjustedArrivalLat],
         zoom: 2.5,
         projection: 'globe',
         attributionControl: false,
@@ -50,18 +54,22 @@ const Globe = ({ flightData }: { flightData: any }) => {
       new mapboxgl.Marker({ color: '#d8e900', rotation: 0 })
         .setLngLat([arrivalLng, arrivalLat])
         .addTo(mapRef.current);
-
+      
+      const bearing = calculateBearing(departureLat, departureLng, planeLat, planeLng);
+      console.log(bearing);
+      
       // Add Custom Plane Marker
       const planeIcon = document.createElement('div');
       planeIcon.className = styles.planeIcon;
       planeIcon.style.backgroundImage = `url(${planeIconImage})`; // Use the imported image
-      planeIcon.style.transform = `rotate(${calculateBearing(planeLat, planeLng, arrivalLat, arrivalLng)}deg)`; // Rotate plane to face arrival
+      planeIcon.style.transform = `rotate(${bearing}deg)`;
 
       new mapboxgl.Marker(planeIcon)
         .setLngLat([planeLng, planeLat])
-        .addTo(mapRef.current);
+        .addTo(mapRef.current)
+        .setRotation(bearing);
     }
-
+    // Cleanup the map instance on unmount
     return () => {
       if (mapRef.current) {
         mapRef.current.remove();
