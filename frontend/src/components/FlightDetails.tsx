@@ -183,7 +183,7 @@ const FlightDetails = ({ flightData }: { flightData: any }) => {
             <tbody>
               {previousFlights.length === 0 ? (
                 <tr>
-                  <td colSpan="3" className={styles.noFlights}>No flights available</td>
+                  <td colSpan="3" className={styles.noFlights}>Unable to load</td>
                 </tr>
               ) : (
                 previousFlights.map((flight, index) => (
@@ -217,7 +217,7 @@ const FlightDetails = ({ flightData }: { flightData: any }) => {
             <tbody>
               {upcomingFlights.length === 0 ? (
                 <tr>
-                  <td colSpan="3" className={styles.noFlights}>No flights available</td>
+                  <td colSpan="3" className={styles.noFlights}>Unable to load</td>
                 </tr>
               ) : (
                 upcomingFlights.map((flight, index) => (

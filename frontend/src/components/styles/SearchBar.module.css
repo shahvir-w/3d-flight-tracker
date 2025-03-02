@@ -1,6 +1,6 @@
 /* search */
 .inputContainer {
-    position: absolute;
+    position: relative;
     width: 120px;
     align-items: center;
     justify-content: center;

@@ -34,14 +34,14 @@ export const parseFlightData = async (flightData: FlightsData): Promise<{
         airport_code: flight.destination.code_iata,
         airport_name: flight.destination.name,
       },
-      departure_date: flight.scheduled_out,
-      arrival_date: flight.scheduled_in,
-      scheduled_out: convertToEasternTime(flight.scheduled_out),
-      estimated_out: convertToEasternTime(flight.estimated_out),
-      actual_out: convertToEasternTime(flight.actual_out),
-      scheduled_in: convertToEasternTime(flight.scheduled_in),
-      estimated_in: convertToEasternTime(flight.estimated_in),
-      actual_in: convertToEasternTime(flight.actual_in),
+      departure_date: flight.scheduled_out ? convertToEasternTime(flight.scheduled_out) : convertToEasternTime(flight.scheduled_off),
+      arrival_date: flight.scheduled_in ? convertToEasternTime(flight.scheduled_in) : convertToEasternTime(flight.scheduled_on),
+      scheduled_out: flight.scheduled_out ? convertToEasternTime(flight.scheduled_out) : convertToEasternTime(flight.scheduled_off),
+      estimated_out: flight.estimated_out ? convertToEasternTime(flight.estimated_out) : convertToEasternTime(flight.estimated_off),
+      actual_out: flight.actual_out ? convertToEasternTime(flight.actual_out) : convertToEasternTime(flight.actual_off),
+      scheduled_in: flight.scheduled_in ? convertToEasternTime(flight.scheduled_in) : convertToEasternTime(flight.scheduled_on),
+      estimated_in: flight.estimated_in ? convertToEasternTime(flight.estimated_in) : convertToEasternTime(flight.estimated_on),
+      actual_in: flight.actual_in ? convertToEasternTime(flight.actual_in) : convertToEasternTime(flight.actual_on),
       progress_percent: flight.progress_percent,
       status: flight.status,
       route_distance: Math.round(flight.route_distance * 1.60934),
@@ -52,8 +52,8 @@ export const parseFlightData = async (flightData: FlightsData): Promise<{
       aircraft_type: flight.aircraft_type,
     };
 
-    const scheduledOut = new Date(flight.scheduled_out);
-    const scheduledIn = new Date(flight.scheduled_in);
+    const scheduledOut = flight.scheduled_out? new Date(flight.scheduled_out) : new Date(flight.scheduled_off);
+    const scheduledIn = flight.scheduled_in? new Date(flight.scheduled_in) : new Date(flight.scheduled_on);
     const threeHoursAfterLanding = new Date(scheduledIn);
     threeHoursAfterLanding.setHours(threeHoursAfterLanding.getHours() + 3);
     
@@ -108,11 +108,7 @@ export const parseFlightData = async (flightData: FlightsData): Promise<{
 };
 
 export const parseFlightPositionData = (flightPositionData: any, targetFlight: parsedFlight): { updatedTargetFlight: parsedFlight | null } => {
-  const lastPosition = flightPositionData?.last_position;
-  console.log(lastPosition)
-  if (!lastPosition) {
-    return { updatedTargetFlight: null };
-  }
+  const lastPosition = flightPositionData.last_position;
 
   // Extract position data from flight position API
   const positionData = {
@@ -121,12 +117,20 @@ export const parseFlightPositionData = (flightPositionData: any, targetFlight: p
     longitude: lastPosition.longitude,
     altitude: Math.round(lastPosition.altitude * 100 * 0.3048),
     groundSpeed: Math.round(lastPosition.groundspeed * 1.60934),
+    heading: lastPosition.heading
   };
+
+  const waypoints = flightPositionData.waypoints;
+  const waypointCoordinates = [];
+  for (let i = 0; i < waypoints.length; i += 2) {
+    waypointCoordinates.push([waypoints[i + 1], waypoints[i]]);
+  }
 
   // Combine position data with existing targetFlight data
   const updatedTargetFlight = {
     ...targetFlight,
     ...positionData,
+    waypoints: waypointCoordinates
   };
 
   return { updatedTargetFlight };

@@ -5,7 +5,6 @@ dotenv.config();
 
 const GeoCoding_URL: string = 'https://maps.googleapis.com/maps/api/geocode/json';
 const API_KEY = process.env.GEO_API_KEY;
-console.log(API_KEY)
 
 const getGeoLocationData = async (address: string | null): Promise<any | null> => {
   

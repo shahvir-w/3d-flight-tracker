@@ -14,6 +14,13 @@
   padding-top: 20px;
 }
 
+.searchContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  background-color: #000000;
+}
+
 .leftColumn {
   display: flex;
   flex-direction: column;
@@ -34,3 +41,33 @@
   margin-top: 90px;
 }
 
+.savedButton {
+  padding: 8px 12px;
+  margin-top: 3px;
+  font-size: 14px;
+  background-color: #505544;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  outline: 1px solid #d8e900;
+  outline-offset: 2px;
+}
+
+.savedButton:hover {
+  background-color: #99b82b;
+}
+
+.starButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 1px;
+  transition: transform 0.2s ease;
+}
+
+.starIcon {
+  color: #d8e900;
+  font-size: 35px;
+}

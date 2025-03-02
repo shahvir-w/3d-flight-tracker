@@ -7,6 +7,8 @@ router.get('/:flightNum', getFlightData);
 
 router.get('/saved', getSavedFlight)
 
-router.post('/saved/:flightNum', addSavedFlight)
+router.post('/saved', addSavedFlight)
+
+// router.delete('/saved', deleteSavedFlight)
 
 export default router;

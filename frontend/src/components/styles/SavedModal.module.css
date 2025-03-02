@@ -1,0 +1,38 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(24, 24, 24, 0.5); /* Overlay background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: rgb(0, 0, 0);
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  max-height: 80vh;
+  overflow-y: scroll;
+}
+
+.xButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 1px;
+  transition: transform 0.2s ease;
+  justify-content: right;
+}
+
+.xIcon {
+  color: #d8e900;
+  font-size: 25px;
+}
+
+.xIcon:hover{
+  color: #7e8700;
+}
