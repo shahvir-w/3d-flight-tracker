@@ -16,20 +16,17 @@ function App() {
   const [savedFlights, setSavedFlights] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchSavedFlights = async () => {
-      try {
-          const response = await axios.get('http://localhost:5000/api/flights/saved', { withCredentials: true });
-          console.log(response.data);  // Check the array of saved flights
-          setSavedFlights(response.data);  // Set the saved flights in the state
-      } catch (err) {
-          console.error('Error fetching saved flights:', err);
-      }
-    };
-
-    fetchSavedFlights();
-  }, []);
-
+  const fetchSavedFlights = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/flights/saved/flights', {
+        withCredentials: true,
+      });
+      console.log(response.data); 
+      setSavedFlights(response.data);
+    } catch (err) {
+      console.error('Error fetching saved flights:', err);
+    }
+  };
 
   const fetchFlightData = async (flightNum: string) => {
     /*try {
@@ -48,31 +45,55 @@ function App() {
 
   const starClicked = async () => {
     setStarred(!starred)
-    console.log(flightData)
     if (!starred) {
       try {
-
-        const response = await axios.post(
-          `http://localhost:5000/api/flights/saved`,  // No need to include the flightData in the URL
+        await axios.post(
+          `http://localhost:5000/api/flights/saved/flights`, 
           {
-            flightNumber: flightData.updatedTargetFlight.ident,  // Send the flight data in the request body
+            flightNumber: flightData.updatedTargetFlight.ident,
+            departureCityData: flightData.updatedTargetFlight.departure_city,
+            arrivalCityData: flightData.updatedTargetFlight.arrival_city,
+          },
+          { withCredentials: true }
+        );
+
+        fetchSavedFlights();
+      } catch (err) {
+        console.error('Error adding a saved flights:', err);
+      }
+    }
+    
+    else if (starred) {
+      try {
+        await axios.delete(
+          `http://localhost:5000/api/flights/saved/flights`, 
+          {
+            data: {
+              flightNumber: flightData.updatedTargetFlight.ident,  // Use 'data' to send the body
+            },
+            withCredentials: true,
           }
         );
-        console.log(response.data);
+    
+        fetchSavedFlights();
       } catch (err) {
-        console.error('Error fetching saved flights:', err);
+        console.error('Error deleting saved flight:', err);
       }
     }    
   }
 
   const savedClicked = async () => {
-    console.log(savedFlights);
+    setIsModalOpen(true);
   } 
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
   
+  useEffect(() => {
+    fetchSavedFlights();
+  }, []);
+
   return (
     <div className={styles.appContainer}>
       {!flightData ? (

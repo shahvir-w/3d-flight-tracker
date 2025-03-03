@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { getFlightData, getSavedFlight, addSavedFlight } from "../controllers/flightData";
+import { getFlightData, getSavedFlight, addSavedFlight, deleteSavedFlight } from "../controllers/flightData";
 
 const router = Router();
 
 router.get('/:flightNum', getFlightData);
 
-router.get('/saved', getSavedFlight)
+router.get('/saved/flights', getSavedFlight)
 
-router.post('/saved', addSavedFlight)
+router.post('/saved/flights', addSavedFlight)
 
-// router.delete('/saved', deleteSavedFlight)
+router.delete('/saved/flights', deleteSavedFlight)
 
 export default router;

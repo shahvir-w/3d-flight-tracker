@@ -50,51 +50,68 @@ export const getFlightData = async (req: Request, res: Response): Promise<void> 
     }
 };
 
-
+const clearSavedFlightsCookie = (req: Request, res: Response) => {
+    // Clear the savedFlights cookie
+    res.clearCookie('savedFlight', { httpOnly: true, path: '/' });  // Replace 'savedFlights' with your cookie name
+    res.status(200).json({ message: 'Saved flights cookie cleared' });
+  };
 
 // get saved flights
 export const getSavedFlight = async (req: Request, res: Response) => {
     try {
-        const savedFlights = req.cookies.savedFlights ? JSON.parse(req.cookies.savedFlights) : []; // Parse saved flights or default to empty array
-        console.log(savedFlights);  // Log to check the array
-
-        res.status(200).json(savedFlights);  // Return the array of saved flights
+      // Retrieve saved flights from cookies
+      const savedFlights = req.cookies.savedFlights ? JSON.parse(req.cookies.savedFlights) : [];
+      console.log(req.cookies)
+      res.status(200).json(savedFlights);  // Return the saved flights array
     } catch (error: unknown) {
-        console.error("Error fetching saved flights:", error);
-        const err = error as Error;
-        res.status(500).json({ message: err.message });
+      console.error("Error fetching saved flights:", error);
+      const err = error as Error;
+      res.status(500).json({ message: err.message });
     }
-};
+  };
 
 // add a saved flight
 export const addSavedFlight = async (req: Request, res: Response) => {
-    const { flightNumber } = req.body; // Extract flight number from the request body
+    const { flightNumber, departureCityData, arrivalCityData } = req.body;
   
     try {
-      console.log(`Saving flight: ${flightNumber}`);
-      res.cookie('savedFlight', flightNumber, {
-        maxAge: 24 * 60 * 60 * 1000,});
+      const savedFlight = {
+        flightNumber,
+        departureCity: departureCityData,
+        arrivalCity: arrivalCityData,
+      };
+  
+      let savedFlights = req.cookies.savedFlights ? JSON.parse(req.cookies.savedFlights) : [];
+  
+      savedFlights.push(savedFlight);
+      console.log(savedFlights)
+      res.cookie('savedFlights', JSON.stringify(savedFlights), {
+        maxAge: 60 * 24 * 60 * 60 * 1000, // expires after 60 days
+        httpOnly: true,
+      });
+  
       res.status(200).json({ message: 'Flight saved successfully' });
     } catch (error: unknown) {
       const err = error as Error;
       res.status(500).json({ message: err.message });
     }
-};
+  };
 
-/*
+
 // Delete a saved flight
 export const deleteSavedFlight = async (req: Request, res: Response) => {
     try {
-        const flightNum = req.params.flightNum;
-        let savedFlights = getSavedFlightsFromCookies(req);
-
-        savedFlights = savedFlights.filter(flight => flight !== flightNum);
-
-        res.cookie('savedFlights', JSON.stringify(savedFlights), { httpOnly: true });
-        res.status(200).json({ savedFlights });
+      const { flightNumber } = req.body;  // Extract flightNumber from the request body
+      let savedFlights = req.cookies.savedFlights ? JSON.parse(req.cookies.savedFlights) : [];
+  
+      // Remove the flight with the given flightNumber
+      savedFlights = savedFlights.filter((flight: any) => flight.flightNumber !== flightNumber);
+  
+      // Set the updated list of saved flights in the cookie
+      res.cookie('savedFlights', JSON.stringify(savedFlights), { httpOnly: true, maxAge: 60 * 24 * 60 * 60 * 1000 });  // Adjust expiration time if needed
+      res.status(200).json(savedFlights);  // Return the updated saved flights
     } catch (error: unknown) {
-        const err = error as Error;
-        res.status(500).json({ message: err.message });
+      const err = error as Error;
+      res.status(500).json({ message: err.message });
     }
-};
-*/
+  };
