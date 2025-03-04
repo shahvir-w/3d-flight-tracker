@@ -12,11 +12,17 @@ type savedFlight = {
 interface SavedModalProps {
   isOpen: boolean;
   onClose: () => void;
-  savedFlights: savedFlight[]
+  savedFlights: savedFlight[];
+  fetchFlightData: (flightNum: string) => void;
 }
 
-const SavedModal: React.FC<SavedModalProps> = ({ isOpen, onClose, savedFlights }) => {
+const SavedModal: React.FC<SavedModalProps> = ({ isOpen, onClose, savedFlights, fetchFlightData }) => {
   if (!isOpen) return null;
+
+  const handleFlightClick = (flightNumber: string) => {
+    fetchFlightData(flightNumber);
+    onClose();
+  };
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
@@ -26,11 +32,11 @@ const SavedModal: React.FC<SavedModalProps> = ({ isOpen, onClose, savedFlights }
         </button>
 
         {savedFlights.length === 0 ? (
-          <p>No saved flights yet!</p>
+          <p>. . . </p>
         ) : (
           <div className={styles.flightList}>
             {savedFlights.map((flight, index) => (
-              <div key={index} className={styles.flightItem}>
+              <button key={index} className={styles.flightItem} onClick={() => handleFlightClick(flight.flightNumber)}>
               {/* Departure City */}
               <div className={styles.cityContainer}>
                 <div className={styles.cityName1}>{flight.departureCity.airport_name}</div>
@@ -50,7 +56,7 @@ const SavedModal: React.FC<SavedModalProps> = ({ isOpen, onClose, savedFlights }
                 <div className={styles.cityName2}>{flight.arrivalCity.airport_name}</div>
                 <div className={styles.airportCode}>{flight.arrivalCity.airport_code}</div>
               </div>
-              </div>
+              </button>
             ))}
           </div>
         )}

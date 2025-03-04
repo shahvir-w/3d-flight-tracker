@@ -3,6 +3,7 @@ import { parseFlightData, parseFlightPositionData } from "../utils/parseData";
 import { FlightsData } from "../types/AreoAPI";
 import dotenv from "dotenv";
 import axios from "axios";
+import { updatedTargetFlight, twoPreviousFlights, twoUpcomingFlights } from "../yeoo";
 
 dotenv.config();
 
@@ -15,12 +16,15 @@ export const getFlightData = async (req: Request, res: Response): Promise<void> 
         let { flightNum } = req.params;
         flightNum = flightNum.toUpperCase();
 
-        // Fetch flight data
+        // Fetch flight data 
+        /*
         const response = await axios.get(`${AeroAPI_URL}${flightNum}`, {
             headers: { "x-apikey": API_KEY },
         });
 
         const flights = response.data as FlightsData;
+
+
         let { targetFlight, twoUpcomingFlights, twoPreviousFlights } = await parseFlightData(flights);
 
         let updatedTargetFlight = targetFlight;
@@ -37,11 +41,19 @@ export const getFlightData = async (req: Request, res: Response): Promise<void> 
                 console.error("Error fetching flight position data:", positionError);
             }
         }
+        
 
         res.status(200).json({
-            updatedTargetFlight,
-            twoUpcomingFlights,
-            twoPreviousFlights,
+          updatedTargetFlight,
+          twoUpcomingFlights,
+          twoPreviousFlights,
+        });
+        */
+       
+        res.status(200).json({
+          updatedTargetFlight,
+          twoUpcomingFlights,
+          twoPreviousFlights,
         });
 
     } catch (error) {
@@ -61,7 +73,6 @@ export const getSavedFlight = async (req: Request, res: Response) => {
     try {
       // Retrieve saved flights from cookies
       const savedFlights = req.cookies.savedFlights ? JSON.parse(req.cookies.savedFlights) : [];
-      console.log(req.cookies)
       res.status(200).json(savedFlights);  // Return the saved flights array
     } catch (error: unknown) {
       console.error("Error fetching saved flights:", error);
@@ -84,7 +95,6 @@ export const addSavedFlight = async (req: Request, res: Response) => {
       let savedFlights = req.cookies.savedFlights ? JSON.parse(req.cookies.savedFlights) : [];
   
       savedFlights.push(savedFlight);
-      console.log(savedFlights)
       res.cookie('savedFlights', JSON.stringify(savedFlights), {
         maxAge: 60 * 24 * 60 * 60 * 1000, // expires after 60 days
         httpOnly: true,

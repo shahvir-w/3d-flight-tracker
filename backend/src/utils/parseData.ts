@@ -1,9 +1,9 @@
 import { parsedFlight } from "../types/parsedFlight";
 import { FlightsData } from "../types/AreoAPI";
-import { calculateFlightTimes, convertToEasternTime } from "./timeCalculations";
+import { calculateFlightTimes, convertToEasternTime, convertToEasternDate } from "./timeCalculations";
 import getGeoLocationData from "../utils/getGeoLocation";
 
-export const parseFlightData = async (flightData: FlightsData): Promise<{
+export const parseFlightData = async (flightData: any): Promise<{
   targetFlight: parsedFlight | null,
   twoUpcomingFlights: parsedFlight[],
   twoPreviousFlights: parsedFlight[]
@@ -12,7 +12,7 @@ export const parseFlightData = async (flightData: FlightsData): Promise<{
 
   // sort flights based on date ascending
   const sortedFlights = flightData.flights.sort(
-    (a, b) => new Date(a.scheduled_out).getTime() - new Date(b.scheduled_out).getTime()
+    (a: any, b: any) => new Date(a.scheduled_out).getTime() - new Date(b.scheduled_out).getTime()
   );
 
   // seperate flights
@@ -28,14 +28,14 @@ export const parseFlightData = async (flightData: FlightsData): Promise<{
       fa_flight_id: flight.fa_flight_id,
       departure_city: {
         airport_code: flight.origin.code_iata,
-        airport_name: flight.origin.name,
+        airport_name: flight.origin.name + " Airport",
       },
       arrival_city: {
         airport_code: flight.destination.code_iata,
-        airport_name: flight.destination.name,
+        airport_name: flight.destination.name + " Airport",
       },
-      departure_date: flight.scheduled_out ? convertToEasternTime(flight.scheduled_out) : convertToEasternTime(flight.scheduled_off),
-      arrival_date: flight.scheduled_in ? convertToEasternTime(flight.scheduled_in) : convertToEasternTime(flight.scheduled_on),
+      departure_date: flight.scheduled_out ? convertToEasternDate(flight.scheduled_out) : convertToEasternDate(flight.scheduled_off),
+      arrival_date: flight.scheduled_in ? convertToEasternDate(flight.scheduled_in) : convertToEasternDate(flight.scheduled_on),
       scheduled_out: flight.scheduled_out ? convertToEasternTime(flight.scheduled_out) : convertToEasternTime(flight.scheduled_off),
       estimated_out: flight.estimated_out ? convertToEasternTime(flight.estimated_out) : convertToEasternTime(flight.estimated_off),
       actual_out: flight.actual_out ? convertToEasternTime(flight.actual_out) : convertToEasternTime(flight.actual_off),
@@ -57,14 +57,25 @@ export const parseFlightData = async (flightData: FlightsData): Promise<{
     const threeHoursAfterLanding = new Date(scheduledIn);
     threeHoursAfterLanding.setHours(threeHoursAfterLanding.getHours() + 3);
     
-    if (!targetFlight && ((flight.progress_percent && flight.progress_percent > 0 && flight.progress_percent < 100) || scheduledOut > now || now < threeHoursAfterLanding)) {
-      targetFlight = simplifiedFlight;
-    } else if (targetFlight) {
-      upcomingFlights.push(simplifiedFlight);
+    const isInProgress = flight.progress_percent && flight.progress_percent > 0 && flight.progress_percent < 100;
+    const isUpcoming = scheduledOut > now;
+    const isRecentlyLanded = now < threeHoursAfterLanding;
+
+    if (!targetFlight) {
+      if (isInProgress || isUpcoming || isRecentlyLanded) {
+        targetFlight = simplifiedFlight;
+      } else {
+        previousFlights.push(simplifiedFlight);
+      }
     } else {
-      previousFlights.push(simplifiedFlight);
+      upcomingFlights.push(simplifiedFlight);
     }
-  }
+    }
+
+    // If no upcoming or in-progress flight was found, pick the last departed flight
+    if (!targetFlight && previousFlights.length > 0) {
+      targetFlight = previousFlights.pop()!; // Get the most recent past flight
+    }
 
   // get two of the closest flights to targetFlight by date
   const twoUpcomingFlights = upcomingFlights.slice(0, 2);
@@ -108,7 +119,7 @@ export const parseFlightData = async (flightData: FlightsData): Promise<{
 };
 
 export const parseFlightPositionData = (flightPositionData: any, targetFlight: parsedFlight): { updatedTargetFlight: parsedFlight | null } => {
-  const lastPosition = flightPositionData.last_position;
+  const lastPosition = flightPositionData.last_position ? flightPositionData.last_position : null;
 
   // Extract position data from flight position API
   const positionData = {

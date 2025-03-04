@@ -6,14 +6,19 @@ import SavedModal from './components/SavedModal';
 import 'semantic-ui-css/semantic.min.css';
 import styles from './App.module.css';
 import SearchBar from './components/SearchBar';
-import { flights } from './yeoo';
 import { MdOutlineStarOutline, MdOutlineStar  } from "react-icons/md"; 
+
+type savedFlight = {
+  flightNumber: string;
+  departureCity: any;
+  arrivalCity: any;
+};
 
 function App() {
   const [flightData, setFlightData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [starred, setStarred] = useState<boolean>(false);
-  const [savedFlights, setSavedFlights] = useState<string[]>([]);
+  const [savedFlights, setSavedFlights] = useState<savedFlight[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const fetchSavedFlights = async () => {
@@ -29,9 +34,23 @@ function App() {
   };
 
   const fetchFlightData = async (flightNum: string) => {
-    /*try {
+    try {
       const response = await axios.get(`http://localhost:5000/api/flights/${flightNum}`);
+      console.log(response)
       const data = response.data;
+
+      if (!data.updatedTargetFlight) {
+        setError('Error processing your request at this time');
+      }
+
+      if (data.updatedTargetFlight && data.updatedTargetFlight.ident) {
+        if (savedFlights.some(flight => flight.flightNumber === data.updatedTargetFlight.ident)) {
+          setStarred(true); // Set starred to true if the flight is saved
+        } else {
+          setStarred(false); // Set starred to false if the flight is not saved
+        }
+      }
+
       setFlightData(data);
       setError(null); // Clear any previous error
       console.log('Fetched flight data:', data);
@@ -39,8 +58,6 @@ function App() {
       console.error('Error fetching flight data:', err);
       setError('Invalid flight number');
     }
-    */
-    setFlightData(flights);
   };
 
   const starClicked = async () => {
@@ -94,6 +111,9 @@ function App() {
     fetchSavedFlights();
   }, []);
 
+
+
+
   return (
     <div className={styles.appContainer}>
       {!flightData ? (
@@ -126,6 +146,7 @@ function App() {
         isOpen={isModalOpen}
         onClose={closeModal}
         savedFlights={savedFlights}
+        fetchFlightData={fetchFlightData}
       />
 
     </div>
