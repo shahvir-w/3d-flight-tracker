@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 // routes
-app.use('/api/flights', flightDataRouter)
+app.use('/api', flightDataRouter)
 
 // listener
 app.listen(PORT, () => {

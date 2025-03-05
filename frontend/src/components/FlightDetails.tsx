@@ -65,12 +65,12 @@ const FlightDetails = ({ flightData }: { flightData: any }) => {
             <div className={styles.row}>
               <div className={styles.pair}>
                 <span className={styles.sectionTitle}>Scheduled</span>
-                <span className={styles.sectionText}>{targetFlight.scheduled_out.slice(0,5)}</span>
+                <span className={styles.sectionText}>{targetFlight.scheduled_out.slice(11,16)}</span>
               </div>
               
               <div className={styles.pair}>
                 <span className={styles.sectionTitle}>{targetFlight.actual_out ? "Actual" : "Estimated"}</span>
-                <span className={styles.sectionText}>{targetFlight.actual_out ? targetFlight.actual_out.slice(0,5) : targetFlight.estimated_out.slice(0,5)}</span>
+                <span className={styles.sectionText}>{targetFlight.actual_out ? targetFlight.actual_out.slice(11,16) : targetFlight.estimated_out.slice(11,16)}</span>
               </div>
             </div>
             
@@ -100,12 +100,12 @@ const FlightDetails = ({ flightData }: { flightData: any }) => {
             <div className={styles.row}>
               <div className={styles.pair}>
                 <span className={styles.sectionTitle}>Scheduled</span>
-                <span className={styles.sectionText}>{targetFlight.scheduled_in.slice(0,5)}</span>
+                <span className={styles.sectionText}>{targetFlight.scheduled_in.slice(11,16)}</span>
               </div>
               
               <div className={styles.pair}>
                 <span className={styles.sectionTitle}>{targetFlight.actual_in ? "Actual" : "Estimated"}</span>
-                <span className={styles.sectionText}>{targetFlight.actual_in ? targetFlight.actual_in.slice(0,5) : targetFlight.estimated_in.slice(0,5)}</span>
+                <span className={styles.sectionText}>{targetFlight.actual_in ? targetFlight.actual_in.slice(11,16) : targetFlight.estimated_in.slice(11,16)}</span>
               </div>
             </div>
             

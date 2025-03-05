@@ -14,6 +14,11 @@ type savedFlight = {
   arrivalCity: any;
 };
 
+const isValidFlightNumber = (flightNum: string): boolean => {
+  const flightNumberRegex = /^[A-Z]{2,3}\d{1,4}[A-Z]?$/;
+  return flightNumberRegex.test(flightNum);
+};
+
 function App() {
   const [flightData, setFlightData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +28,7 @@ function App() {
 
   const fetchSavedFlights = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/flights/saved/flights', {
+      const response = await axios.get('http://localhost:5000/api/saved/flights', {
         withCredentials: true,
       });
       console.log(response.data); 
@@ -35,14 +40,22 @@ function App() {
 
   const fetchFlightData = async (flightNum: string) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/flights/${flightNum}`);
+      setError(null)
+
+      if (!isValidFlightNumber(flightNum)) {
+        setError('Invalid flight number');
+        return;
+      }
+
+      const response = await axios.get(`http://localhost:5000/api/${flightNum}`);
       console.log(response)
       const data = response.data;
 
       if (!data.updatedTargetFlight) {
         setError('Error processing your request at this time');
+        return
       }
-
+      
       if (data.updatedTargetFlight && data.updatedTargetFlight.ident) {
         if (savedFlights.some(flight => flight.flightNumber === data.updatedTargetFlight.ident)) {
           setStarred(true); // Set starred to true if the flight is saved
@@ -54,9 +67,10 @@ function App() {
       setFlightData(data);
       setError(null); // Clear any previous error
       console.log('Fetched flight data:', data);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error fetching flight data:', err);
-      setError('Invalid flight number');
+      const errorMessage = err.response?.data?.message || 'Invalid flight number';
+      setError(errorMessage);
     }
   };
 
@@ -65,7 +79,7 @@ function App() {
     if (!starred) {
       try {
         await axios.post(
-          `http://localhost:5000/api/flights/saved/flights`, 
+          `http://localhost:5000/api/saved/flights`, 
           {
             flightNumber: flightData.updatedTargetFlight.ident,
             departureCityData: flightData.updatedTargetFlight.departure_city,
@@ -83,7 +97,7 @@ function App() {
     else if (starred) {
       try {
         await axios.delete(
-          `http://localhost:5000/api/flights/saved/flights`, 
+          `http://localhost:5000/api/saved/flights`, 
           {
             data: {
               flightNumber: flightData.updatedTargetFlight.ident,  // Use 'data' to send the body
@@ -112,8 +126,6 @@ function App() {
   }, []);
 
 
-
-
   return (
     <div className={styles.appContainer}>
       {!flightData ? (
@@ -122,6 +134,7 @@ function App() {
             <SearchBar onSearch={fetchFlightData} />
             <button onClick={savedClicked} className={styles.savedButton}>Saved</button>
           </div>
+        
           {error && <div className={styles.errorMessage}>{error}</div>} {/* Error message */}
         </div>
       ) : (

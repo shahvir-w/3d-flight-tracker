@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import styles from './styles/Globe.module.css';
-import planeIconImage from '../assets/Plane-Icon.svg';
+import planeIconImage from '/Plane-Icon.svg';
 
 const Globe = ({ flightData }: { flightData: any }) => {
   const targetFlight = flightData.updatedTargetFlight;

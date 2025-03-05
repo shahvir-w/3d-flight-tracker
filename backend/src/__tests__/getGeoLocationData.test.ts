@@ -1,6 +1,7 @@
 import getGeoLocationData from '../utils/getGeoLocation';
 import axios from 'axios';
 
+
 jest.mock('axios');
 
 describe('getGeoLocationData', () => {
