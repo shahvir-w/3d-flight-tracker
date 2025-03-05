@@ -32,8 +32,6 @@ export const getFlightData = async (req: Request, res: Response): Promise<void> 
 
         let { targetFlight, twoUpcomingFlights, twoPreviousFlights } = await parseFlightData(data);
 
-        
-
         let updatedTargetFlight = targetFlight;
 
         if (targetFlight) {
@@ -49,7 +47,6 @@ export const getFlightData = async (req: Request, res: Response): Promise<void> 
             }
         }
         
-
         res.status(200).json({
           updatedTargetFlight,
           twoUpcomingFlights,
@@ -109,7 +106,7 @@ export const deleteSavedFlight = async (req: Request, res: Response) => {
   
       savedFlights = savedFlights.filter((flight: any) => flight.flightNumber !== flightNumber);
   
-      res.cookie('savedFlights', JSON.stringify(savedFlights), { httpOnly: true, maxAge: 60 * 24 * 60 * 60 * 1000 });  // Adjust expiration time if needed
+      res.cookie('savedFlights', JSON.stringify(savedFlights), { httpOnly: true, maxAge: 60 * 24 * 60 * 60 * 1000 });
       res.status(200).json(savedFlights);
     } catch (error: unknown) {
       const err = error as Error;

@@ -11,35 +11,32 @@
   overflow-y: hidden;
 }
 
-
-/* row 1: arline and flight number */
 .airlineContainer {
   display: flex;
   width: 90%;
-  justify-content: center; /* Centers the content */
-  align-items: center; /* Vertically centers the content */
+  justify-content: center;
+  align-items: center;
   margin-bottom: 10px;
 }
 
 .separator {
-  font-size: 16px; /* Adjust size for the separator */
-  color: #d1d5db; /* Same color as airline name for consistency */
-  margin: 0 5px; /* Adds spacing between the airline name and flight number */
+  font-size: 16px;
+  color: #d1d5db;
+  margin: 0 5px;
 }
 
 .flightNumber {
-  font-size: 16px; /* Slightly smaller for the flight number */
-  color: #e9ff26; /* Yellow color for the flight number */
-  font-weight: normal; /* Regular weight for the flight number */
+  font-size: 16px;
+  color: #e9ff26;
+  font-weight: normal;
 }
 
 .status {
-  font-size: 16px; /* Slightly smaller for the flight number */
-  color: #06fc16; /* Yellow color for the flight number */
-  font-weight: normal; /* Regular weight for the flight number */
+  font-size: 16px;
+  color: #06fc16;
+  font-weight: normal;
 }
 
-/* row 2: arline and flight number */
 .flightDetails {
   display: flex;
   align-items: center;
@@ -57,11 +54,11 @@
 }
 
 .cityContainer:first-child {
-  text-align: left; /* Align the first city container to the left */
+  text-align: left;
 }
 
 .cityContainer:last-child {
-  text-align: right; /* Align the second city container to the right */
+  text-align: right;
 }
 
 .airportCode {
@@ -78,7 +75,7 @@
 
 .cityName2 {
   font-size: 12px;
-  color: #e9ff26; /* Light grey */
+  color: #e9ff26;
   margin-bottom: 10px;
 }
 
@@ -93,7 +90,7 @@
 .statusDot {
   width: 12px;
   height: 12px;
-  background-color: #d8e900; /* Yellow */
+  background-color: #d8e900;
   border-radius: 50%;
   z-index: 2;
 }
@@ -101,7 +98,7 @@
 .statusLine {
   flex: 1;
   height: 3px;
-  background-color: #d1d5db; /* Grey */
+  background-color: #d1d5db;
   position: absolute;
   left: 0;
   right: 0;
@@ -116,8 +113,7 @@
   position: static;
 }
 
-/* Overall progress bar container */
-
+/* Progress bar container */
 .progressBarContainer {
   display: flex;
   align-items: center;
@@ -136,7 +132,7 @@
 }
 
 .progressBar::-webkit-progress-value {
-  background-color: #d8e900; /* Yellow for progress */
+  background-color: #d8e900;
 }
 
 .dot {
@@ -146,11 +142,11 @@
 }
 
 .dot:first-child {
-  left: -8px; /* Position the first dot at the left end */
+  left: -8px;
 }
 
 .dot:last-child {
-  right: -8px; /* Position the second dot at the right end */
+  right: -8px;
 }
 
 .labelContainer {
@@ -163,11 +159,11 @@
 
 .label {
   position: fixed;
-  background-color: rgba(233, 255, 38, 0.15) !important; /* Light yellow background */
+  background-color: rgba(233, 255, 38, 0.15) !important;
   color: white !important; 
   font-size: 12px !important;
   font-weight: bold !important;
-  text-align: center; /* Center the text inside the label */
+  text-align: center;
 }
 
 .timingData {
@@ -276,7 +272,7 @@
 .statItem {
   display: flex;
   align-items: center;
-  gap: 6px; /* Space between icon and text */
+  gap: 6px;
 }
 
 .col {
@@ -287,13 +283,13 @@
 
 .icon {
   font-size: 16px;
-  color: #e9ff26; /* Light yellow for icons */
+  color: #e9ff26;
 }
 
 .label2 {
   font-size: 13px;
   font-weight: bold;
-  color: #b3bd9a; /* Light gray */
+  color: #b3bd9a;
 }
 
 .value {

@@ -4,7 +4,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(24, 24, 24, 0.5); /* Overlay background */
+  background: rgba(24, 24, 24, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,11 +72,11 @@
 }
 
 .cityContainer:first-child {
-  text-align: left; /* Align the first city container to the left */
+  text-align: left;
 }
 
 .cityContainer:last-child {
-  text-align: right; /* Align the second city container to the right */
+  text-align: right;
 }
 
 .airportCode {
@@ -93,43 +93,43 @@
 
 .cityName2 {
   font-size: 12px;
-  color: #e9ff26; /* Light grey */
+  color: #e9ff26;
   margin-bottom: 5px;
 }
 
 .cityName1, .cityName2 {
-  white-space: nowrap;  /* Prevent text wrapping */
-  overflow: hidden;     /* Hide overflow if the text exceeds the container */
-  text-overflow: ellipsis;  /* Add an ellipsis if the text overflows */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .middle {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Align them vertically */
-  width: 50%; /* Ensure the arrow takes up the full width of its container */
+  align-items: center;
+  width: 50%;
 
 }
 
 .flightNumber {
   font-size: 15px;
   font-weight: bold;
-  color: #e5ff00; /* Same color as your other text */
-  margin-bottom: -10px; /* Adds space between the flight number and arrow */
+  color: #e5ff00;
+  margin-bottom: -10px;
 }
 
 .arrow {
   display: flex;
   flex-direction: row;
-  justify-content: center; /* Spread the line and point out */
-  align-items: center; /* Align them vertically */
-  width: 100%; /* Ensure the arrow takes up the full width of its container */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .line {
-  width: 100%; /* Make the line span across the available space */
+  width: 100%;
   height: 1px;
-  background-color: #e9ff26; /* Line color */
+  background-color: #e9ff26;
   margin: 0;
 }
 

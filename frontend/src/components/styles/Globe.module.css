@@ -7,17 +7,16 @@
 }
 
 #map-container {
-  height: 500px; /* Ensure it's visible even without flight data */
+  height: 500px;
   width: 100%;
-  background-color: lightgrey; /* Temp debug */
+  background-color: lightgrey;
 }
 
 .mapContainer {
   flex: 1;
   height: 100%;
-  min-height: 500px; /* Ensure it shows up */
+  min-height: 500px;
 }
-
 
 .sidebar {
   background-color: rgb(35 55 75 / 90%);
@@ -42,7 +41,6 @@
   cursor: pointer;
 }
 
-/* Globe.module.css */
 .planeIcon {
   display: 'block';
   background-size: contain;

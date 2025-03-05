@@ -8,7 +8,7 @@ const PORT = 5000;
 
 //middleware
 app.use(cors({
-    origin: "http://localhost:3000", // restrict to frontend origin
+    origin: "http://localhost:3000",
     credentials: true
 }));
 app.use(cookieParser());
