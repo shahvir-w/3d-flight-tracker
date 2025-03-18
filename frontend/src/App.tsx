@@ -8,6 +8,7 @@ import styles from './App.module.css';
 import SearchBar from './components/SearchBar';
 import { MdOutlineStarOutline, MdOutlineStar  } from "react-icons/md"; 
 
+
 type savedFlight = {
   flightNumber: string;
   departureCity: any;
@@ -25,6 +26,7 @@ function App() {
   const [starred, setStarred] = useState<boolean>(false);
   const [savedFlights, setSavedFlights] = useState<savedFlight[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchSavedFlights = async () => {
     try {
@@ -40,10 +42,12 @@ function App() {
 
   const fetchFlightData = async (flightNum: string) => {
     try {
-      setError(null)
+      setError(null);
+      setIsLoading(true);
 
       if (!isValidFlightNumber(flightNum)) {
         setError('Invalid flight number');
+        setIsLoading(false);
         return;
       }
 
@@ -53,7 +57,8 @@ function App() {
 
       if (!data.updatedTargetFlight) {
         setError('Error processing your request at this time');
-        return
+        setIsLoading(false);
+        return;
       }
       
       if (data.updatedTargetFlight && data.updatedTargetFlight.ident) {
@@ -67,10 +72,12 @@ function App() {
       setFlightData(data);
       setError(null); // Clear any previous error
       console.log('Fetched flight data:', data);
+      setIsLoading(false);
     } catch (err: any) {
       console.error('Error fetching flight data:', err);
       const errorMessage = err.response?.data?.message || 'Invalid flight number';
       setError(errorMessage);
+      setIsLoading(false);
     }
   };
 
@@ -130,12 +137,22 @@ function App() {
     <div className={styles.appContainer}>
       {!flightData ? (
         <div className={styles.centeredContainer}>
-          <div className={styles.searchContainer} style={{ gap: '10px' }}>
-            <SearchBar onSearch={fetchFlightData} />
-            <button onClick={savedClicked} className={styles.savedButton}>Saved</button>
+          <div className={styles.landingContent}>
+            <div className={styles.logoContainer}>
+              <h1 className={styles.landingTitle}>3D Flight Tracker</h1>
+            </div>
+            <p className={styles.landingDescription}>
+              Enter a flight number to track real-time flight data
+            </p>
+            <div className={styles.searchContainerLanding}>
+              <SearchBar onSearch={fetchFlightData} isLoading={isLoading} />
+              <button onClick={savedClicked} className={styles.savedButton}>Saved</button>
+            </div>
+            {error && <div className={styles.errorMessage}>{error}</div>}
+            <div className={styles.exampleText}>
+              Examples: UA2402, DL1234, BA142
+            </div>
           </div>
-        
-          {error && <div className={styles.errorMessage}>{error}</div>} {/* Error message */}
         </div>
       ) : (
         <>
@@ -144,7 +161,7 @@ function App() {
               <button onClick={starClicked} className={styles.starButton}>
                 {starred ? <MdOutlineStar className={styles.starIcon}/> : <MdOutlineStarOutline className={styles.starIcon}/>}
               </button> 
-              <SearchBar onSearch={fetchFlightData} />
+              <SearchBar onSearch={fetchFlightData} isLoading={isLoading} />
               <button onClick={savedClicked} className={styles.savedButton}>Saved</button>
             </div>
             <FlightDetails flightData={flightData} />

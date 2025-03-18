@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { FaSearch } from "react-icons/fa";
+import { FaSpinner } from "react-icons/fa";
 import styles from './styles/SearchBar.module.css';
 
 interface SearchBarProps {
   onSearch: (flightNum: string) => void;
+  isLoading?: boolean;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch, isLoading = false }) => {
   const [flightNum, setFlightNum] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (flightNum) {
+    if (flightNum && !isLoading) {
       onSearch(flightNum);
     }
   };
@@ -21,12 +23,21 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
       <input
         className={styles.input}
         type="text"
-        placeholder="Flight #"
+        placeholder={isLoading ? "Fetching data..." : "Flight #"}
         value={flightNum}
         onChange={(e) => setFlightNum(e.target.value)}
+        disabled={isLoading}
       />
-      <button type="submit" className={styles.searchButton}>
-        <FaSearch className={styles.searchIcon} />
+      <button 
+        type="submit" 
+        className={styles.searchButton} 
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          <FaSpinner className={`${styles.searchIcon} ${styles.spinnerIcon}`} />
+        ) : (
+          <FaSearch className={styles.searchIcon} />
+        )}
       </button>
     </form>
   );

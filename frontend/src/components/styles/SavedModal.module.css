@@ -4,71 +4,139 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(24, 24, 24, 0.5);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .modalContent {
-  background-color: rgb(0, 0, 0);
-  padding: 15px;
-  border-radius: 8px;
-  width: 500px;
+  background-color: rgb(10, 10, 10);
+  padding: 25px;
+  border-radius: 12px;
+  width: 550px;
   max-height: 80vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   position: relative;
+  box-shadow: 0 0 30px rgba(216, 233, 0, 0.2);
+  border: 1px solid rgba(216, 233, 0, 0.15);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(216, 233, 0, 0.2);
+}
+
+.modalTitle {
+  display: flex;
+  align-items: center;
+  color: #d8e900;
+  font-size: 24px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.titleIcon {
+  margin-right: 10px;
+  font-size: 28px;
 }
 
 .xButton {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 1px;
-  transition: transform 0.2s ease;
-  position: absolute;
-  right: 0px;
-  top: 10px;
+  padding: 8px;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+}
+
+.xButton:hover {
+  background-color: rgba(216, 233, 0, 0.1);
+  transform: scale(1.1);
 }
 
 .xIcon {
   color: #d8e900;
-  font-size: 25px;
+  font-size: 28px;
 }
 
 .xIcon:hover{
-  color: #7e8700;
+  color: #aabc00;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.emptyMessage {
+  font-size: 20px;
+  color: #d8e900;
+  margin-bottom: 10px;
+}
+
+.emptySubMessage {
+  font-size: 16px;
+  color: #969f81;
 }
 
 .flightList {
   list-style: none;
   padding: 5px;
-  justify-items: center;
-  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .flightItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 95%;
-  max-width: 460px;
-  padding: 10px 10px;
-  border: 1px solid #7e8700;
-  border-radius: 8px; 
+  width: 100%;
+  padding: 15px;
+  border: 1px solid rgba(126, 135, 0, 0.4);
+  border-radius: 10px; 
   margin-bottom: 15px; 
-  background-color: transparent;
-  align-items: center;
+  background-color: rgba(24, 24, 24, 0.5);
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .flightItem:hover {
-  border: 2px solid #b4bc5f;
+  border: 1px solid #d8e900;
+  background-color: rgba(36, 36, 36, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .cityContainer {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 0;
+  padding: 5px;
+  min-width: 120px;
 }
 
 .cityContainer:first-child {
@@ -85,37 +153,32 @@
   color: #969f81;
 }
 
-.cityName1 {
-  font-size: 12px;
-  color: #e9ff26;
-  margin-bottom: 5px;
-}
-
-.cityName2 {
-  font-size: 12px;
-  color: #e9ff26;
-  margin-bottom: 5px;
-}
-
 .cityName1, .cityName2 {
+  font-size: 13px;
+  color: #e9ff26;
+  margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 150px;
 }
 
 .middle {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50%;
-
+  flex: 1;
+  padding: 0 10px;
 }
 
 .flightNumber {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   color: #e5ff00;
-  margin-bottom: -10px;
+  margin-bottom: 5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background-color: rgba(216, 233, 0, 0.1);
 }
 
 .arrow {
@@ -124,6 +187,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin-top: 5px;
 }
 
 .line {

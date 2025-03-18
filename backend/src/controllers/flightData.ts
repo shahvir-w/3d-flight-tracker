@@ -21,41 +21,60 @@ export const getFlightData = async (req: Request, res: Response): Promise<void> 
         });
 
         const data = response.data as FlightsData;
-
         
         if (!data.flights || data.flights.length === 0) {
           res.status(404).json({
               message: `Flight ${flightNum} has not flown in the past 14 days.`,
           });
-          return
+          return;
         }
 
-        let { targetFlight, twoUpcomingFlights, twoPreviousFlights } = await parseFlightData(data);
+        try {
+            let { targetFlight, twoUpcomingFlights, twoPreviousFlights } = await parseFlightData(data);
 
-        let updatedTargetFlight = targetFlight;
-
-        if (targetFlight) {
-            try {
-                const positionResponse = await axios.get(`${AeroAPI_URL}${targetFlight.fa_flight_id}/position`, {
-                    headers: { "x-apikey": API_KEY },
+            if (!targetFlight) {
+                res.status(404).json({
+                    message: `No valid flight data found for ${flightNum}.`,
                 });
-
-                const positionData = parseFlightPositionData(positionResponse.data, targetFlight);
-                updatedTargetFlight = positionData.updatedTargetFlight ?? targetFlight;
-            } catch (positionError) {
-                console.error("Error fetching flight position data:", positionError);
+                return;
             }
-        }
-        
-        res.status(200).json({
-          updatedTargetFlight,
-          twoUpcomingFlights,
-          twoPreviousFlights,
-        });
 
-    } catch (error) {
+            let updatedTargetFlight = targetFlight;
+
+            if (targetFlight) {
+                try {
+                    const positionResponse = await axios.get(`${AeroAPI_URL}${targetFlight.fa_flight_id}/position`, {
+                        headers: { "x-apikey": API_KEY },
+                    });
+                    
+                    const positionData = parseFlightPositionData(positionResponse.data, targetFlight);
+                    updatedTargetFlight = positionData.updatedTargetFlight ?? targetFlight;
+                } catch (positionError) {
+                    console.error("Error fetching flight position data:", positionError);
+                    // Continue with the basic flight data even if position data fails
+                }
+            }
+            
+            res.status(200).json({
+                updatedTargetFlight,
+                twoUpcomingFlights,
+                twoPreviousFlights,
+            });
+        } catch (parseError: any) {
+            console.error("Error parsing flight data:", parseError);
+            res.status(500).json({ 
+                message: "Error processing flight data. Please try again later.",
+                error: process.env.NODE_ENV === 'development' ? parseError.message : undefined
+            });
+        }
+    } catch (error: any) {
         console.error("Error fetching flight data:", error);
-        res.status(500).json({ error: "Failed to fetch flight data" });
+        const statusCode = error.response?.status || 500;
+        const message = 
+            error.response?.data?.message || 
+            (statusCode === 404 ? `Flight ${req.params.flightNum} not found.` : "Failed to fetch flight data");
+        
+        res.status(statusCode).json({ message });
     }
 };
 

@@ -1,46 +1,82 @@
 /* search */
 .inputContainer {
-    position: relative;
-    width: 120px;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(233, 255, 38, 0.15);
-    border-radius: 20px;
-  }
-  
-  .input {
-    padding: 10px 0px 10px 4.5px;
-    font-size: 16px;
-    border: none;
-    border-radius: 30px;
-    background-color: transparent;
-    color: #d1d5db;
-    width: 70%;
-    text-indent: 10px;
-    outline: none;
-  }
-  
-  .input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  
-  .searchButton {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    background-color: transparent;
-    border: none;
-    border-radius: 50%;
-    padding: 5px;
-    cursor: pointer;
-  }
-  
-  .searchIcon {
-    color: #c3c4b8;
-    font-size: 16px;
-  }
-  
-  .searchButton:hover .searchIcon {
-    color: #d8e900;
-  }
-  
+  position: relative;
+  width: 180px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(233, 255, 38, 0.15);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(216, 233, 0, 0.2);
+  box-shadow: 0 0 15px rgba(216, 233, 0, 0.1);
+}
+
+.inputContainer:focus-within {
+  width: 200px;
+  background-color: rgba(233, 255, 38, 0.25);
+  border: 1px solid rgba(216, 233, 0, 0.4);
+  box-shadow: 0 0 20px rgba(216, 233, 0, 0.2);
+}
+
+.input {
+  padding: 12px 0px 12px 4.5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  background-color: transparent;
+  color: #d1d5db;
+  width: 70%;
+  text-indent: 10px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+  color: rgba(209, 213, 219, 0.6);
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.searchButton {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.searchButton:disabled {
+  cursor: not-allowed;
+}
+
+.searchButton:hover:not(:disabled) {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.searchIcon {
+  color: #c3c4b8;
+  font-size: 16px;
+  transition: color 0.2s ease;
+}
+
+.searchButton:hover:not(:disabled) .searchIcon {
+  color: #d8e900;
+}
+
+.spinnerIcon {
+  animation: spin 1s linear infinite;
+  color: #d8e900;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
