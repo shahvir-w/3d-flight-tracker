@@ -1,22 +1,41 @@
 .detailsContainer {
-  flex: 2;
-  max-width: 555px;
-  min-width: 390px;
-  padding: 1rem;
-  background-color: #000000;
+  flex: 1;
+  width: 100%;
+  padding: 1.5rem;
+  background-color: #0d0d0d;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  overflow-y: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d8e900 #333;
+  border-radius: 8px;
+}
+
+.detailsContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.detailsContainer::-webkit-scrollbar-track {
+  background: #333;
+  border-radius: 10px;
+}
+
+.detailsContainer::-webkit-scrollbar-thumb {
+  background-color: #d8e900;
+  border-radius: 10px;
 }
 
 .airlineContainer {
   display: flex;
-  width: 90%;
+  width: 100%;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: rgba(216, 233, 0, 0.1);
+  border-radius: 8px;
 }
 
 .separator {
@@ -26,9 +45,9 @@
 }
 
 .flightNumber {
-  font-size: 16px;
+  font-size: 20px;
   color: #e9ff26;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 .status {
@@ -41,16 +60,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 95%;
+  width: 100%;
   max-width: 460px;
-  padding: px 0;
-  align-items: center;
+  padding: 10px 0;
+  margin-bottom: 10px;
 }
 
 .cityContainer {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  transition: transform 0.2s ease;
+}
+
+.cityContainer:hover {
+  transform: translateY(-2px);
 }
 
 .cityContainer:first-child {
@@ -65,45 +89,17 @@
   font-size: 40px;
   font-weight: bold;
   color: #969f81;
+  text-shadow: 0 0 8px rgba(150, 159, 129, 0.3);
 }
 
-.cityName1 {
-  font-size: 12px;
+.cityName1, .cityName2 {
+  font-size: 14px;
   color: #e9ff26;
   margin-bottom: 10px;
-}
-
-.cityName2 {
-  font-size: 12px;
-  color: #e9ff26;
-  margin-bottom: 10px;
-}
-
-.statusBar {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  margin: 0 20px;
-  position: relative;
-}
-
-.statusDot {
-  width: 12px;
-  height: 12px;
-  background-color: #d8e900;
-  border-radius: 50%;
-  z-index: 2;
-}
-
-.statusLine {
-  flex: 1;
-  height: 3px;
-  background-color: #d1d5db;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-  z-index: 1;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .planeIcon {
@@ -111,6 +107,13 @@
   font-size: 35px;
   transform: rotate(45deg);
   position: static;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
 }
 
 /* Progress bar container */
@@ -118,27 +121,35 @@
   display: flex;
   align-items: center;
   width: 80%;
-  margin-top: 12px;
+  margin: 20px 0;
   position: relative;
   color: #d8e900;
 }
 
 .progressBar {
   width: 100%;
-  height: 3px;
-  background-color: #d8e900;
+  height: 4px;
+  background-color: rgba(209, 213, 219, 0.2);
   border-radius: 10px;
   position: absolute;
+  overflow: hidden;
 }
 
 .progressBar::-webkit-progress-value {
   background-color: #d8e900;
+  box-shadow: 0 0 10px rgba(216, 233, 0, 0.5);
+}
+
+.progressBar::-moz-progress-bar {
+  background-color: #d8e900;
+  box-shadow: 0 0 10px rgba(216, 233, 0, 0.5);
 }
 
 .dot {
   font-size: 24px;
-  color: #d1d5db;
+  color: #d8e900;
   position: absolute;
+  filter: drop-shadow(0 0 5px rgba(216, 233, 0, 0.5));
 }
 
 .dot:first-child {
@@ -152,73 +163,85 @@
 .labelContainer {
   display: flex;
   justify-content: space-between;
-  gap: 90px;
-  margin-top: 3px;
-  margin-bottom: -10px;
+  width: 80%;
+  margin-top: 15px;
+  margin-bottom: 5px;
 }
 
 .label {
-  position: fixed;
   background-color: rgba(233, 255, 38, 0.15) !important;
   color: white !important; 
   font-size: 12px !important;
   font-weight: bold !important;
   text-align: center;
+  border: 1px solid rgba(233, 255, 38, 0.3) !important;
+  box-shadow: 0 0 10px rgba(233, 255, 38, 0.2) !important;
 }
 
 .timingData {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 95%;
-  margin-top: 30px;
+  align-items: flex-start;
+  width: 100%;
+  margin: 30px 0;
   gap: 20px;
-  margin-bottom: -10px;
 }
 
 .departure_arrivalContainer {
   flex: 1;
-  gap: 20px;
+  background-color: rgba(25, 25, 25, 0.5);
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.departure_arrivalContainer:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(216, 233, 0, 0.1);
 }
 
 .date {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 15px;
 }
 
 .sectionTitle {
   font-size: 13px;
-  color: rgb(178, 193, 49);
-  margin-bottom: 3px;
+  color: rgb(216, 233, 0);
+  margin-bottom: 5px;
   text-align: center;
+  letter-spacing: 1px;
 }
 
 .dateText {
   font-size: 17px;
-  color: rgb(166, 167, 152);
+  color: rgb(216, 216, 200);
   border-radius: 5px;
   text-align: center;
   width: 100%;
+  padding: 5px;
+  background-color: rgba(216, 233, 0, 0.05);
 }
 
 .row {
   display: flex;
   justify-content: space-between;
-  border-bottom: 2px solid rgba(211, 220, 50, 0.6);
+  border-bottom: 2px solid rgba(211, 220, 50, 0.3);
+  margin-bottom: 5px;
 }
 
 .row1 {
   display: flex;
   justify-content: space-between;
-
 }
-
 
 .sectionText {
   font-size: 20px;
   color: rgb(228, 229, 212);
-  font-weight: 800;
+  font-weight: 600;
   text-align: center;
   width: 100%;
 }
@@ -241,106 +264,143 @@
   font-size: 15px;
   font-weight: 500;
   flex: 1;
-  border-left: 1px solid rgba(211, 220, 50, 0.6);
-}
-
-.label1 {
-  font-size: 14px;
-  font-weight: bold;
-  color: #e9ff26;
-  text-transform: uppercase;
-  margin-bottom: 5px;
+  border-left: 1px solid rgba(211, 220, 50, 0.3);
 }
 
 .flightStatsTitle {
-  font-size: 13px;
-  color: rgb(178, 193, 49);
-  margin-bottom: 8px;
+  font-size: 20px;
+  color: #d8e900;
+  margin: 20px 0;
   text-align: center;
+  width: 100%;
+  position: relative;
+  letter-spacing: 1px;
 }
 
+
 .flightStats {
-  align-content: center;
-  justify-content: space-between;
   display: flex;
-  width: 95%;
-  max-width: 420px;
-  padding: 10px;
-  outline: 1px solid #e9ff26;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.col {
+  flex: 1;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .statItem {
   display: flex;
   align-items: center;
-  gap: 6px;
+  padding: 10px 15px;
+  background-color: rgba(25, 25, 25, 0.5);
+  border-radius: 8px;
+  transition: transform 0.2s ease;
 }
 
-.col {
-  display: flex;
-  gap: 5px;
-  flex-direction: column;
+.statItem:hover {
+  transform: translateY(-2px);
+  background-color: rgba(25, 25, 25, 0.8);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
 .icon {
-  font-size: 16px;
-  color: #e9ff26;
+  color: #d8e900;
+  margin-right: 10px;
+  font-size: 18px;
 }
 
 .label2 {
-  font-size: 13px;
-  font-weight: bold;
-  color: #b3bd9a;
+  color: #b2c131;
+  margin-right: 5px;
+  font-size: 14px;
 }
 
 .value {
-  font-size: 13px;
-  font-weight: bold;
-  color: rgb(228, 229, 212);
+  color: #e4e5d4;
+  font-weight: 600;
+  font-size: 14px;
+  margin-left: auto;
 }
 
-/* other flights */
 .tableContainer {
-  margin-top: 20px;
+  width: 100%;
+  margin-bottom: 30px;
+  background-color: rgba(25, 25, 25, 0.5);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .flightTable {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 10px;
 }
 
 .tableContainer h2 {
-  font-size: 13px;
-  color: rgb(178, 193, 49);
-  margin-bottom: 8px;
+  font-size: 18px;
+  color: #d8e900;
+  margin-bottom: 15px;
   text-align: center;
+  letter-spacing: 1px;
 }
 
 .flightTable th, .flightTable td {
-  padding-top: 3px;
-  padding-bottom: 3px;
-  border: 1px solid #e9ff26;
+  padding: 10px;
   text-align: center;
+  border-bottom: 1px solid rgba(216, 233, 0, 0.2);
 }
 
 .flightTable th {
-  background-color: rgba(0, 0, 0, 0.15);
-  padding-top: 3px;
-  padding-bottom: 3px;
-  padding-left: 31px;
-  padding-right: 31px;
-  color: rgb(228, 229, 212);
-  font-size: 13px;
-  border: 1px solid #e9ff26;
-  text-align: center;
+  color: #d8e900;
+  font-weight: 600;
+  font-size: 14px;
+  background-color: rgba(216, 233, 0, 0.1);
+  border-radius: 4px;
+}
+
+.flightTable tr:hover {
+  background-color: rgba(216, 233, 0, 0.05);
 }
 
 .flightTable td em {
-  font-style: italic;
-  color: #d8dbb9;
-  font-size: 13px;
+  color: #d1d5db;
+  font-style: normal;
+  font-size: 14px;
 }
 
 .noFlights {
-  color: rgb(228, 229, 212);
-  font-size: 13px;
+  color: #ff6b6b;
+  text-align: center;
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .timingData {
+    flex-direction: column;
+  }
+  
+  .departure_arrivalContainer {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .flightStats {
+    flex-direction: column;
+  }
+  
+  .col {
+    width: 100%;
+  }
+  
+  .detailsContainer {
+    padding: 1rem;
+  }
 }

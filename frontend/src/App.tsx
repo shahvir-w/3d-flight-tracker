@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Globe from './components/Globe';
 import FlightDetails from './components/FlightDetails';
@@ -7,12 +7,18 @@ import 'semantic-ui-css/semantic.min.css';
 import styles from './App.module.css';
 import SearchBar from './components/SearchBar';
 import { MdOutlineStarOutline, MdOutlineStar  } from "react-icons/md"; 
+import { getSavedFlights, addSavedFlight, deleteSavedFlight, isFlightSaved } from './utils/savedFlights';
 
-
-type savedFlight = {
+type SavedFlight = {
   flightNumber: string;
-  departureCity: any;
-  arrivalCity: any;
+  departureCity: {
+    airport_code: string;
+    airport_name: string;
+  };
+  arrivalCity: {
+    airport_code: string;
+    airport_name: string;
+  };
 };
 
 const isValidFlightNumber = (flightNum: string): boolean => {
@@ -24,21 +30,31 @@ function App() {
   const [flightData, setFlightData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [starred, setStarred] = useState<boolean>(false);
-  const [savedFlights, setSavedFlights] = useState<savedFlight[]>([]);
+  const [savedFlights, setSavedFlights] = useState<SavedFlight[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  const fetchSavedFlights = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/saved/flights', {
-        withCredentials: true,
-      });
-      console.log(response.data); 
-      setSavedFlights(response.data);
-    } catch (err) {
-      console.error('Error fetching saved flights:', err);
-    }
-  };
+  // Check if the screen is mobile size
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Initial check
+    checkIfMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
+  // Load saved flights from localStorage on component mount
+  useEffect(() => {
+    setSavedFlights(getSavedFlights());
+  }, []);
 
   const fetchFlightData = async (flightNum: string) => {
     try {
@@ -51,8 +67,7 @@ function App() {
         return;
       }
 
-      const response = await axios.get(`http://localhost:5000/api/${flightNum}`);
-      console.log(response)
+      const response = await axios.get(`http://localhost:3001/api/flights/${flightNum}`);
       const data = response.data;
 
       if (!data.updatedTargetFlight) {
@@ -61,16 +76,13 @@ function App() {
         return;
       }
       
+      // Check if the flight is saved
       if (data.updatedTargetFlight && data.updatedTargetFlight.ident) {
-        if (savedFlights.some(flight => flight.flightNumber === data.updatedTargetFlight.ident)) {
-          setStarred(true); // Set starred to true if the flight is saved
-        } else {
-          setStarred(false); // Set starred to false if the flight is not saved
-        }
+        setStarred(isFlightSaved(data.updatedTargetFlight.ident));
       }
 
       setFlightData(data);
-      setError(null); // Clear any previous error
+      setError(null);
       console.log('Fetched flight data:', data);
       setIsLoading(false);
     } catch (err: any) {
@@ -81,57 +93,34 @@ function App() {
     }
   };
 
-  const starClicked = async () => {
-    setStarred(!starred)
+  const starClicked = () => {
+    if (!flightData?.updatedTargetFlight) return;
+
+    const flightNumber = flightData.updatedTargetFlight.ident;
+    const departureCityData = flightData.updatedTargetFlight.departure_city;
+    const arrivalCityData = flightData.updatedTargetFlight.arrival_city;
+
     if (!starred) {
-      try {
-        await axios.post(
-          `http://localhost:5000/api/saved/flights`, 
-          {
-            flightNumber: flightData.updatedTargetFlight.ident,
-            departureCityData: flightData.updatedTargetFlight.departure_city,
-            arrivalCityData: flightData.updatedTargetFlight.arrival_city,
-          },
-          { withCredentials: true }
-        );
-
-        fetchSavedFlights();
-      } catch (err) {
-        console.error('Error adding a saved flights:', err);
-      }
+      // Add to saved flights
+      addSavedFlight(flightNumber, departureCityData, arrivalCityData);
+      setStarred(true);
+    } else {
+      // Remove from saved flights
+      deleteSavedFlight(flightNumber);
+      setStarred(false);
     }
-    
-    else if (starred) {
-      try {
-        await axios.delete(
-          `http://localhost:5000/api/saved/flights`, 
-          {
-            data: {
-              flightNumber: flightData.updatedTargetFlight.ident,  // Use 'data' to send the body
-            },
-            withCredentials: true,
-          }
-        );
-    
-        fetchSavedFlights();
-      } catch (err) {
-        console.error('Error deleting saved flight:', err);
-      }
-    }    
-  }
 
-  const savedClicked = async () => {
+    // Update saved flights state
+    setSavedFlights(getSavedFlights());
+  };
+
+  const savedClicked = () => {
     setIsModalOpen(true);
-  } 
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  
-  useEffect(() => {
-    fetchSavedFlights();
-  }, []);
-
 
   return (
     <div className={styles.appContainer}>
@@ -156,21 +145,44 @@ function App() {
         </div>
       ) : (
         <>
-          <div className={styles.leftColumn}>
-            <div className={styles.searchContainer} style={{ width: '90%' }}>
-              <button onClick={starClicked} className={styles.starButton}>
-                {starred ? <MdOutlineStar className={styles.starIcon}/> : <MdOutlineStarOutline className={styles.starIcon}/>}
-              </button> 
-              <SearchBar onSearch={fetchFlightData} isLoading={isLoading} />
-              <button onClick={savedClicked} className={styles.savedButton}>Saved</button>
-            </div>
-            <FlightDetails flightData={flightData} />
-          </div>
+          {isMobile ? (
+            // Mobile layout: Globe on top, Flight Details below
+            <>
+              <div className={styles.searchContainer} style={{ width: '100%', padding: '15px' }}>
+                <button onClick={starClicked} className={styles.starButton}>
+                  {starred ? <MdOutlineStar className={styles.starIcon}/> : <MdOutlineStarOutline className={styles.starIcon}/>}
+                </button> 
+                <SearchBar onSearch={fetchFlightData} isLoading={isLoading} />
+                <button onClick={savedClicked} className={styles.savedButton}>Saved</button>
+              </div>
+              
+              {/* Globe takes full width on mobile */}
+              <Globe flightData={flightData} />
+              
+              {/* Flight details below the globe */}
+              <div className={styles.leftColumn}>
+                <FlightDetails flightData={flightData} />
+              </div>
+            </>
+          ) : (
+            // Desktop layout: Flight Details on left, Globe on right
+            <>
+              <div className={styles.leftColumn}>
+                <div className={styles.searchContainer} style={{ width: '100%' }}>
+                  <button onClick={starClicked} className={styles.starButton}>
+                    {starred ? <MdOutlineStar className={styles.starIcon}/> : <MdOutlineStarOutline className={styles.starIcon}/>}
+                  </button> 
+                  <SearchBar onSearch={fetchFlightData} isLoading={isLoading} />
+                  <button onClick={savedClicked} className={styles.savedButton}>Saved</button>
+                </div>
+                <FlightDetails flightData={flightData} />
+              </div>
 
-          <Globe flightData={flightData}/>
+              <Globe flightData={flightData} />
+            </>
+          )}
         </>
       )}
-
 
       <SavedModal
         isOpen={isModalOpen}
@@ -178,7 +190,6 @@ function App() {
         savedFlights={savedFlights}
         fetchFlightData={fetchFlightData}
       />
-
     </div>
   );
 }

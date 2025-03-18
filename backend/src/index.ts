@@ -1,23 +1,18 @@
-import express from 'express';
-import flightDataRouter from './routes/flightData'
+import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
+import flightDataRoutes from "./routes/flightData";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-const PORT = 5000;
+const port = process.env.PORT || 3001;
 
-//middleware
-app.use(cors({
-    origin: "http://localhost:3000",
-    credentials: true
-}));
-app.use(cookieParser());
+app.use(cors());
 app.use(express.json());
 
-// routes
-app.use('/api', flightDataRouter)
+app.use('/api/flights', flightDataRoutes);
 
-// listener
-app.listen(PORT, () => {
-    console.log(`Server running on Port ${PORT}`)
-})
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
