@@ -15,7 +15,6 @@
 .mapContainer {
   flex: 1;
   height: 100%;
-  min-height: 500px;
 }
 
 .sidebar {
@@ -52,4 +51,43 @@
   pointer-events: none;
   transform-origin: center center;
   transform: rotate(300);
+}
+
+/* Responsive styles */
+@media (max-width: 1000px) {
+  .sidebar {
+    padding: 4px 8px;
+    margin: 8px;
+    font-size: 14px;
+  }
+  
+  .reset-button {
+    top: 40px;
+    padding: 3px 8px;
+    font-size: 14px;
+  }
+  
+  .planeIcon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 3px 6px;
+    margin: 6px;
+    font-size: 12px;
+  }
+  
+  .reset-button {
+    top: 35px;
+    padding: 2px 6px;
+    font-size: 12px;
+  }
+  
+  .planeIcon {
+    width: 28px;
+    height: 28px;
+  }
 }

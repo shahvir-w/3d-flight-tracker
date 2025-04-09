@@ -192,10 +192,10 @@ const FlightDetails = ({ flightData }: { flightData: any }) => {
                       <em>{flight.departure_date.slice(0, 10)}</em>
                     </td>
                     <td>
-                      <em>{flight.actual_out? flight.actual_out.slice(0, 5) : flight.estimated_out.slice(0, 5)} EST</em>
+                      <em>{flight.actual_out? flight.actual_out.slice(11, 16) : flight.estimated_out.slice(11, 16)} EST</em>
                     </td>
                     <td>
-                    <em>{flight.actual_in? flight.actual_in.slice(0, 5) : flight.estimated_in.slice(0, 5)} EST</em>
+                    <em>{flight.actual_in? flight.actual_in.slice(11, 16) : flight.estimated_in.slice(11, 16)} EST</em>
                     </td>
                   </tr>
                 ))
@@ -226,10 +226,10 @@ const FlightDetails = ({ flightData }: { flightData: any }) => {
                       <em>{flight.departure_date.slice(0, 10)}</em>
                     </td>
                     <td>
-                      <em>{flight.scheduled_out.slice(0, 5)} EST</em>
+                      <em>{flight.scheduled_out.slice(11, 16)} EST</em>
                     </td>
                     <td>
-                      <em>{flight.scheduled_in.slice(0, 5)} EST</em>
+                      <em>{flight.scheduled_in.slice(11, 16)} EST</em>
                     </td>
                   </tr>
                 ))
