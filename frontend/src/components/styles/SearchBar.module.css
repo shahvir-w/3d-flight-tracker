@@ -1,34 +1,25 @@
 /* search */
 .inputContainer {
   position: relative;
-  width: 180px;
+  width: 120px;
   align-items: center;
   justify-content: center;
   background-color: rgba(233, 255, 38, 0.15);
   border-radius: 20px;
-  transition: all 0.3s ease;
   border: 1px solid rgba(216, 233, 0, 0.2);
   box-shadow: 0 0 15px rgba(216, 233, 0, 0.1);
 }
 
-.inputContainer:focus-within {
-  width: 200px;
-  background-color: rgba(233, 255, 38, 0.25);
-  border: 1px solid rgba(216, 233, 0, 0.4);
-  box-shadow: 0 0 20px rgba(216, 233, 0, 0.2);
-}
-
 .input {
-  padding: 12px 0px 12px 4.5px;
+  padding: 12px 8px;
   font-size: 16px;
   border: none;
   border-radius: 30px;
   background-color: transparent;
   color: #d1d5db;
   width: 70%;
-  text-indent: 10px;
+  margin-left: 10px;
   outline: none;
-  transition: all 0.3s ease;
 }
 
 .input:disabled {

@@ -91,7 +91,9 @@ const Globe = ({ flightData }: { flightData: any }) => {
     };
   }, [flightData]);
 
-  return <div id="map-container" ref={mapContainerRef} className={styles.mapContainer} />;
+  return (
+    <div id="map-container" ref={mapContainerRef} className={styles.mapContainer} />
+  );
 };
 
 export default Globe;

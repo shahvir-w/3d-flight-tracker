@@ -23,7 +23,7 @@
   padding: 25px;
   border-radius: 12px;
   width: 550px;
-  max-height: 80vh;
+  height: 80vh;
   overflow-y: auto;
   position: relative;
   box-shadow: 0 0 30px rgba(216, 233, 0, 0.2);
@@ -136,7 +136,8 @@
   flex-direction: column;
   margin-bottom: 0;
   padding: 5px;
-  min-width: 120px;
+  width: 120px;
+  min-width: 0;
 }
 
 .cityContainer:first-child {
@@ -151,6 +152,9 @@
   font-size: 30px;
   font-weight: bold;
   color: #969f81;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cityName1, .cityName2 {
@@ -160,7 +164,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 150px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .middle {
@@ -205,4 +210,96 @@
   border-top: 10px solid #e9ff26;
   margin: 10px 0;
   transform: rotate(270deg);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .modalContent {
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+  }
+  
+  .modalTitle {
+    font-size: 20px;
+  }
+  
+  .titleIcon {
+    font-size: 24px;
+  }
+  
+  .xIcon {
+    font-size: 24px;
+  }
+  
+  .emptyMessage {
+    font-size: 18px;
+  }
+  
+  .emptySubMessage {
+    font-size: 14px;
+  }
+  
+  .cityContainer {
+    width: 100px;
+  }
+  
+  .airportCode {
+    font-size: 26px;
+  }
+  
+  .cityName1, .cityName2 {
+    font-size: 12px;
+  }
+  
+  .flightNumber {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modalContent {
+    width: 95%;
+    padding: 15px;
+  }
+  
+  .modalTitle {
+    font-size: 18px;
+  }
+  
+  .titleIcon {
+    font-size: 22px;
+  }
+  
+  .xIcon {
+    font-size: 22px;
+  }
+  
+  .emptyMessage {
+    font-size: 16px;
+  }
+  
+  .emptySubMessage {
+    font-size: 13px;
+  }
+  
+  .cityContainer {
+    width: 90px;
+  }
+  
+  .airportCode {
+    font-size: 24px;
+  }
+  
+  .cityName1, .cityName2 {
+    font-size: 11px;
+  }
+  
+  .flightNumber {
+    font-size: 13px;
+  }
+  
+  .flightItem {
+    padding: 10px;
+  }
 }
