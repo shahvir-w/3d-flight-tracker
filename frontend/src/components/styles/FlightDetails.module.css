@@ -66,11 +66,13 @@
   justify-content: space-between;
   width: 95%;
   padding: 15px 0;
+  position: relative;
 }
 
 .cityContainer {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .cityContainer:first-child {
@@ -127,7 +129,9 @@
   color: #d8e900;
   font-size: 35px;
   transform: rotate(45deg);
-  position: static;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
   margin-top: 15px;
   filter: drop-shadow(0 0 4px rgba(216, 233, 0, 0.5));
 }

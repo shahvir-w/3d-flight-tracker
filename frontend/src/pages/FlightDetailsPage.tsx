@@ -70,7 +70,7 @@ function FlightDetailsPage() {
       setError(null);
       setIsLoading(true);
 
-      if (!isValidFlightNumber(flightNum)) {
+      if (!isValidFlightNumber(flightNum.toUpperCase())) {
         setError('Invalid flight number');
         setIsLoading(false);
         return;
@@ -88,10 +88,15 @@ function FlightDetailsPage() {
       setFlightData(data);
       setIsLoading(false);
     } catch (err: any) {
-      console.error('Error fetching flight data:', err);
-      const errorMessage = err.response?.data?.message || 'Invalid flight number';
-      setError(errorMessage);
-      setIsLoading(false);
+        console.error('Error fetching flight data:', err);
+        // Check specifically for rate limit error (HTTP 429)
+        if (err.response?.status === 429) {
+          setError('Rate limit exceeded');
+        } else {
+          const errorMessage = err.response?.data?.message || 'Invalid flight number';
+          setError(errorMessage);
+        }
+        setIsLoading(false);
     }
   };
 
