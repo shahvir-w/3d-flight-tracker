@@ -2,7 +2,7 @@
 
 A flight tracking application that provides a 3D visualization of a flight with detailed information, built using React, Mapbox GL, and Node.js.
 
-![Flight Tracker Demo](demo.gif)
+![Flight Tracker Interface](screenshots/screenshot1.jpg)
 
 ## Features
 
@@ -47,7 +47,7 @@ Before you begin, ensure you have the following:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/3d-flight-tracker.git
+git clone https://github.com/shahvir-w/3d-flight-tracker.git
 cd 3d-flight-tracker
 ```
 
